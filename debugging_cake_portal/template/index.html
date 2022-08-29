@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Debugging the Cake</title>
+{% endblock %}
+
+{% block content %}
+    {% include 'navbar.html'%}
+
+    <div class = "leftDiv">
+        <img src="{% static 'pluginIcon.jpg' %}" class="ribbon"  alt = "logo">
+
+
+        <p><a href=""><span class = "tags">Tags</span></a></p>
+        <p><a href=""><span class = "users">Users</span></a></p>
+        <p><a href=""><span class = "about">About</span></a></p>
+
+</div>
+
+
+<!--<div id="tags_list">-->
+<!--    -->
+<!--</div>-->
+
+{% endblock content %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Specific topic</title>
+</head>
+<body>
+    <h1> TOPIC </h1>
+        <h2> {{topic_report.title}} </h2>
+        <h2> {{topic_report.post.title}} </h2>
+            <ul>
+                {% for topic in topic_report.post %}
+                    <li>
+                        <h3> {{post}}</h3>
+                    </li>
+                {% endfor %}
+            </ul>
+        <h2> {{topic.tag.tag_type}} </h2>
+</body>
+</html>

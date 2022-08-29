@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
-MEDIA_ROOT = Path(BASE_DIR) / "media"
+MEDIA_ROOT = Path(BASE_DIR) / 'media'
 
 TEMPLATE_DIR = Path(BASE_DIR) / 'template'
 
@@ -129,7 +129,7 @@ USE_TZ = True
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'tag',
     'forum',
     'topic',
+    'user_profile',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

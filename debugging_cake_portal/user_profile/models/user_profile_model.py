@@ -1,5 +1,5 @@
 from django.db import models
-from .user_model import User
+from cake_user.models.user_model import User
 from posts.models.post_model import Post
 from tag.models.tag_model import Tag
 

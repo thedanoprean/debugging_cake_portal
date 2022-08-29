@@ -189,4 +189,5 @@ debugging-cake/
 */*/*/__pycache__
 .idea/
 db.sqlite3
+migrations/
 *.pyc

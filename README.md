@@ -14,7 +14,7 @@ Install the requirements:
 
 Create the database:
 
-    python manage.py cake_user tag posts user_profile && python manage.py migrate
+    python manage.py makemigrations cake_user tag posts user_profile && python manage.py migrate
 
 
 Finally, run the development server:

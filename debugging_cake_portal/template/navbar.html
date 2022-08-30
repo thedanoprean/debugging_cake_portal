@@ -9,11 +9,11 @@
     {% endif %}
 
     {% if request.user.is_authenticated %}
+        <a href="/profile"><button class="profilebutton">Profile</button></a>
         <a href="/logout"><button class="LogoutButton" type="button">Logout</button></a>
     {% endif %}
 
     {% else %}
-
             <a href="/login/"><button class = "loginButton" type="button">Login</button> </a>
             <a href="/register/"><button class = "registerButton" type="button">Register</button></a>
     {% endif %}

@@ -38,6 +38,7 @@
 img {
     width:132px;
     height:78px;
+}
 
 .ribbon {
     width:195px;
@@ -123,6 +124,7 @@ img {
     min-width: 120px;
     padding: 0 25px;
   }
+}
 
 .loginpage {
     display:flex;
@@ -131,10 +133,10 @@ img {
 }
 
 .loginform {
-  display: flex;
-  height: 700px;
-  width: 400px;
-  align-items: center;
+    display: flex;
+    height: 700px;
+    width: 400px;
+    align-items: center;
 }
 
 .btn-success {
@@ -177,7 +179,7 @@ img {
 .about {
     color: #fbeee0;
 }
-}
+
 
 
 .AdminButton {
@@ -226,3 +228,39 @@ img {
     margin-left: 50px;
 }
 
+.profilebutton {
+  float: right;
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-right: 25px;
+}
+
+.profile-page {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-update-form {
+  display: block;
+  height: 100%;
+  width: 600px;
+  align-items: center;
+}
+
+.profile-info {
+    display: flex;
+}

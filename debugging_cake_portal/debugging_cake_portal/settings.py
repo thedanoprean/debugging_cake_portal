@@ -11,14 +11,16 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import mimetypes
+
+mimetypes.add_type("text/css", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path(BASE_DIR) / 'media'
-
-TEMPLATE_DIR = Path(BASE_DIR) / 'template'
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -66,6 +68,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'debugging_cake_portal.urls'
 
+TEMPLATE_DIR = Path(BASE_DIR) / 'template'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -129,10 +132,9 @@ USE_TZ = True
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-STATIC_URL = 'static/'
-
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    os.path.join(BASE_DIR, 'static')
 ]
 
 # Default primary key field type

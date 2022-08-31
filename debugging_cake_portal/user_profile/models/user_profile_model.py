@@ -16,9 +16,9 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-    def save(self):
+    def save(self, *args, **kwargs):
         # will run the save method of the parent class
-        super().save()
+        super(Profile, self).save(*args, **kwargs)
 
         img = Image.open(self.image.path)
         # will resize the image and save it back at the same path with the new size of 300x300 px

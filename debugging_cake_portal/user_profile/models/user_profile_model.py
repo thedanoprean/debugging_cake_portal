@@ -21,8 +21,8 @@ class Profile(models.Model):
         super().save()
 
         img = Image.open(self.image.path)
-
+        # will resize the image and save it back at the same path with the new size of 300x300 px
         if img.height > 300 or img.width > 300:
-            output_size = (300,300)
+            output_size = (300, 300)
             img.thumbnail(output_size)
-            img.save()
+            img.save(self.image.path)

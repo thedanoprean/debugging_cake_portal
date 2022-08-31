@@ -5,7 +5,7 @@ from django.urls import path
 app_name = "topic"
 
 urlpatterns = [
-    path('', TopicListView.as_view()),
+    path('', TopicListView.as_view(template_name="topic_detail_template.html")),
     path('<int:pk>/', TopicDetailView.as_view()),
 
     # Django Rest Views

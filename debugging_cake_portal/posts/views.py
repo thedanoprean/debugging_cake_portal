@@ -1,4 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
 from rest_framework import viewsets, status, views
 from rest_framework.decorators import api_view
 from rest_framework.parsers import FileUploadParser
@@ -10,6 +12,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, JsonResponse
 from .serializers import PostSerializer
 from .forms import UploadPost
+from django.views.generic import ListView, DetailView, CreateView
 
 
 # class FileUploadView(views.APIView):
@@ -115,4 +118,22 @@ def list_posts(request):
     return render(request, 'ListPost.html', data)
 
 
+def about_page(request):
+    return render(request, 'About.html')
 
+
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'index.html'
+    context_object_name = 'posts'
+    ordering = ['-date_created']
+
+
+class PostDetailView(DetailView):
+    model = Post
+
+
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'description', 'post_tag', 'file']

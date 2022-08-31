@@ -188,4 +188,5 @@ debugging-cake/
 */*/*/__pycache__
 .idea/
 migrations/
+media/
 *.pyc

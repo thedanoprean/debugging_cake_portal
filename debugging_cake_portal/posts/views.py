@@ -107,7 +107,7 @@ class PostViewSet(viewsets.ViewSet):
 
 
 def homepage(request):
-    return render(request, 'Homepage.html')
+    return render(request, 'index.html')
 
 
 def list_posts(request):
@@ -115,11 +115,11 @@ def list_posts(request):
     data = {
         'posts': posts
     }
-    return render(request, 'ListPost.html', data)
+    return render(request, 'index.html', data)
 
-
+    # TODO: implement about.html
 def about_page(request):
-    return render(request, 'About.html')
+    return render(request, 'about.html')
 
 
 
@@ -137,3 +137,7 @@ class PostDetailView(DetailView):
 class PostCreateView(CreateView):
     model = Post
     fields = ['title', 'description', 'post_tag', 'file']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)

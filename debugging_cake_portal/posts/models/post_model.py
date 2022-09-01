@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from cake_user.models.user_model import User
 from tag.models.tag_model import Tag
+from django.urls import reverse
 
 
 class Post(models.Model):
@@ -17,6 +18,9 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.author}'s post in {self.post_tag}"
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})
 
 
 def user_directory_path(instance, filename):
@@ -32,3 +36,5 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.file:
         if os.path.isfile(instance.file.path):
             os.remove(instance.file.path)
+
+

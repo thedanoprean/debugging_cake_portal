@@ -22,13 +22,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('cake_user.urls', namespace="cake_user")),
+    path('', include('user_profile.urls', namespace="user_profile")),
     path('', include('posts.urls')),
     path('topics/', include('topic.urls', namespace="topic")),
     path('tags/', include('tag.urls', namespace="tag")),
-
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,8 +9,16 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="registerpage">
     <div class="registerform">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
         <form action="/register/" method="post">
           {% csrf_token %}
             {{ form|crispy }}

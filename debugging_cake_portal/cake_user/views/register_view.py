@@ -1,10 +1,16 @@
-from django.views import generic
-from django.urls import reverse_lazy
+from django.shortcuts import redirect, render
+from django.contrib import messages
 from ..forms.register_form import RegisterForm
 
 
-class RegisterView(generic.CreateView):
-
-    form_class = RegisterForm
-    template_name = 'cake_user/register.html'
-    success_url = reverse_lazy('cake_user:login')
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, "Your account has been created! You are now able to log in")
+            return redirect('/login')
+    else:
+        form = RegisterForm()
+    return render(request, 'cake_user/register.html', {'form': form})

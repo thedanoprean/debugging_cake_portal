@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from tag.models.tag_model import Tag
+from django.core.paginator import Paginator, EmptyPage
 
 
 class TagListView(ListView):
@@ -89,3 +91,22 @@ def BootstrapFilterView(request):
         'categories': Tag.objects.all()
     }
     return render(request, "bootstrap_form_template.html", context)
+
+
+@login_required
+def tag_index(request):
+    tag_items = Tag.objects.all()
+    p = Paginator(tag_items, 5)
+
+    print('NUMBER OF PAGES')
+    print(p.num_pages)
+
+    page_num = request.GET.get('page', 1)
+
+    try:
+        page = p.page(page_num)
+    except EmptyPage:
+        page = p.page(1)
+
+    context = {'tags': page}
+    return render(request, 'tag_list_template.html', context)

@@ -110,3 +110,5 @@ def tag_index(request):
 
     context = {'tags': page}
     return render(request, 'tag_list_template.html', context)
+
+

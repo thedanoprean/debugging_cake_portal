@@ -10,7 +10,9 @@ env.project_name = 'debugging cake portal'
 env.git_url_template = 'https://git.jouve-hdi.com/luminess-dev-experiments/debugging_cake_portal.git'
 env.project_dir_template = '/home/projet/{project_name}/{project_name}'
 # Build variables
-env.build_host = 'ind-may1-drel02.dev.mayenne.l121'
+env.build_python_version = "3.8"
+env.build_variant = "focal"
+env.build_host = "localhost"
 # to choose only one host, set 'build_variant' variable, eg. fab --set build_variant=centos6 snapshot
 # uncomment the following lines to enable multiple plateform build
 # env.build_variant = "centos7"

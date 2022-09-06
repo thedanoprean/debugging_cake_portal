@@ -11,7 +11,9 @@ from .views import (
     Upload_Form,
     PostListView,
     PostDetailView,
-    PostCreateView, PostUpdateView, PostDeleteView
+    PostCreateView,
+    PostUpdateView,
+    PostDeleteView
 )
 
 urlpatterns = [

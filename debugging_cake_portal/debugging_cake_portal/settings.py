@@ -69,10 +69,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'debugging_cake_portal.urls'
 
 TEMPLATE_DIR = Path(BASE_DIR) / 'template'
+ADDITIONAL_TEMPLATE = os.path.join(BASE_DIR, 'debugging_cake_portal/posts/templates/posts')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [TEMPLATE_DIR, ADDITIONAL_TEMPLATE],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

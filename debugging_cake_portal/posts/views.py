@@ -1,15 +1,9 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.decorators import method_decorator
-from rest_framework import viewsets, status, views
+from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
-from rest_framework.parsers import FileUploadParser
-
-from .serializers import PostSerializer
 from .models import Post
 from rest_framework.response import Response
-from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, JsonResponse
 from .serializers import PostSerializer
 from .forms import UploadPost
@@ -28,6 +22,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 #         else:
 #             form = PostSerializer()
 #         return render(request, 'CreatePost.html', {'form': form})
+from comment.models import Comment
+from comment.form import CommentForm
 
 
 def upload_file(request):
@@ -134,6 +130,39 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs["pk"]
+
+        form = CommentForm()
+        post = get_object_or_404(Post, pk=pk)
+        comments = post.comment_set.all()
+
+        context['post'] = post
+        context['comments'] = comments
+        context['form'] = form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+
+        post = Post.objects.filter(id=self.kwargs['pk'])[0]
+        comments = post.comment_set.all()
+
+        context['post'] = post
+        context['comments'] = comments
+        context['form'] = form
+
+        if form.is_valid():
+            content = form.cleaned_data['content']
+
+            form = CommentForm()
+            context['form'] = form
+            return self.render_to_response(context=context)
+
+        return self.render_to_response(context=context)
 
 
 class PostCreateView(CreateView):

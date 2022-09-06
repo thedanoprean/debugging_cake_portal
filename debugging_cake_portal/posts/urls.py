@@ -11,15 +11,15 @@ from .views import (
     Upload_Form,
     PostListView,
     PostDetailView,
-    PostCreateView
+    PostCreateView, PostUpdateView, PostDeleteView
 )
 
 urlpatterns = [
     path('posts/', login_required(PostListView.as_view()), name='index'),
-    path('view/posts/', list_posts, name='index'),
-    path('view/posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('create_post/', PostCreateView.as_view(), name='create-post'),
-    path('add_post/', adaugare_post),
+    path('posts/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 ]
 router = DefaultRouter(trailing_slash=True)
 router.register(r'posts', PostViewSet)

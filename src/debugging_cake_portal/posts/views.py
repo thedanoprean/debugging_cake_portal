@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from rest_framework import viewsets, status, views
 from rest_framework.decorators import api_view
@@ -138,7 +139,6 @@ class PostListView(ListView):
 class PostDetailView(HitCountDetailView):
     model = Post
     count_hit = True
-
     form = CommentForm
 
     def post(self, request, *args, **kwargs):
@@ -149,7 +149,10 @@ class PostDetailView(HitCountDetailView):
             form.instance.post = post
             form.save()
 
+            return redirect(reverse("post-detail", kwargs={'pk': int(post.id)}))
+
     def get_context_data(self, **kwargs):
+
         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
         post_comments = Comment.objects.all().filter(post=self.object.id)
         context = super().get_context_data(**kwargs)

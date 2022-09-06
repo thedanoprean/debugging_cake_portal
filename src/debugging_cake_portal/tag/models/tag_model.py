@@ -18,6 +18,9 @@ class Tag(models.Model):
     def __str__(self):
         return self.tagname
 
+    # def __str__(self):
+    #     return self.name
+
     # color = models.CharField(max_length=20)
 
     # tags = TaggableManager()

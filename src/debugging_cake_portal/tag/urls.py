@@ -1,10 +1,11 @@
-from tag.views.tag_views import TagListView, TagDetailView
+from tag.views.tag_views import TagDetailView, TagListView, tag_index
 from tag.views.rest import TagRestView
 from django.urls import path
 
 app_name = "tag"
 
 urlpatterns = [
+    path('', tag_index, name='tag_index'),
     path('', TagListView.as_view()),
     path('<int:pk>/', TagDetailView.as_view()),
 

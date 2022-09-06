@@ -19,11 +19,11 @@ setup(name='debugging_cake_portal',
       description="Luminess debugging forum.",
       author="Python Intern Team Luminess",
       install_requires=install_requires,
-      package_dir={"": "debugging_cake_portal"},
-      packages=find_packages("debugging_cake_portal", exclude=("tests",)),
+      package_dir={"": "src"},
+      packages=find_packages("src", exclude=("tests",)),
       test_suite="tests",
       tests_require=tests_require,
       extras_require={
           "test": tests_require,
       },
-      )
+)

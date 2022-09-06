@@ -14,14 +14,7 @@ env.project_dir_template = "/projet/apps/{project_name}"
 env.build_python_version = "3.8"
 env.build_variant = "focal"
 env.build_host = "localhost"
-# to choose only one host, set 'build_variant' variable, eg. fab --set build_variant=centos6 snapshot
-# uncomment the following lines to enable multiple plateform build
-# env.build_variant = "centos7"
-# env.build_variants = {'centos7': {'roles': {'build': ['ind-may1-drel03.dev.mayenne.l121'],}, 'extras': '' },
-#                      'centos6': {'roles': {'build': ['ind-may1-drel02.dev.mayenne.l121'],}, 'extras': '' },
-#                      'centos5': {'roles': {'build': ['ind-may1-drel01.dev.mayenne.l121'],}, 'extras': '' },}
-# Deploy variables
-# use ind-may1-dint01 as staging environnement
+
 env.roledefs['staging'] = []
 env.roledefs['prod'] = []
 env.roledefs['int'] = []

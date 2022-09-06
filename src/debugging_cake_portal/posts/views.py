@@ -14,6 +14,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from .serializers import PostSerializer
 from .forms import UploadPost
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from hitcount.views import HitCountDetailView
 
 
 # class FileUploadView(views.APIView):
@@ -28,6 +29,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 #         else:
 #             form = PostSerializer()
 #         return render(request, 'CreatePost.html', {'form': form})
+from comment.form import CommentForm
+from comment.models import Comment
 
 
 def upload_file(request):
@@ -132,8 +135,31 @@ class PostListView(ListView):
     ordering = ['-date_created']
 
 
-class PostDetailView(DetailView):
+class PostDetailView(HitCountDetailView):
     model = Post
+    count_hit = True
+
+    form = CommentForm
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post = self.get_object()
+            form.instance.user = request.user
+            form.instance.post = post
+            form.save()
+
+    def get_context_data(self, **kwargs):
+        post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
+        post_comments = Comment.objects.all().filter(post=self.object.id)
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'form': self.form,
+            'post_comments': post_comments,
+            'post_comments_count': post_comments_count,
+        })
+
+        return context
 
 
 class PostCreateView(CreateView):

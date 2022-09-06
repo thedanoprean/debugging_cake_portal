@@ -5,7 +5,7 @@ Deployment automation.
 from rdcore.deployment.automation import *
 
 # Project description
-env.project_name = 'debugging cake portal'
+env.project_name = 'debugging_cake_portal'
 # env.svn_url_template = 'https://serv-sources.jouve-hdi.com/jouve/bpo_geodis/{project_name}'
 env.git_url_template = 'https://git.jouve-hdi.com/luminess-dev-experiments/debugging_cake_portal.git'
 env.project_dir_template = '/home/projet/{project_name}/{project_name}'
@@ -19,12 +19,13 @@ env.build_host = "localhost"
 # env.build_variants = {'centos7': {'roles': {'build': ['ind-may1-drel03.dev.mayenne.l121'],}, 'extras': '' },
 #                      'centos6': {'roles': {'build': ['ind-may1-drel02.dev.mayenne.l121'],}, 'extras': '' },
 #                      'centos5': {'roles': {'build': ['ind-may1-drel01.dev.mayenne.l121'],}, 'extras': '' },}
-compute_roledefs()
 # Deploy variables
 # use ind-may1-dint01 as staging environnement
-env.roledefs['staging'] = ['0.0.0.0']
-env.roledefs['prod'] = ['0.0.0.0']
+env.roledefs['staging'] = []
+env.roledefs['prod'] = []
+env.roledefs['int'] = []
 env.upload_with_setuptools = True
+compute_roledefs()
 
 
 def get_install_options():

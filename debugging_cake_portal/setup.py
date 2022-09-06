@@ -2,7 +2,9 @@ from setuptools import setup, find_packages
 
 install_requires = [
     "django ~= 4.0",
-    "django-crispy-forms ~=1.14.0"
+    "django-crispy-forms ~=1.14.0",
+    "rdcore3",
+    "rdcore3.install",
 ]
 
 tests_require = [

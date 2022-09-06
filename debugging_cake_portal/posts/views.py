@@ -9,7 +9,6 @@ from .serializers import PostSerializer
 from .forms import UploadPost
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-
 # class FileUploadView(views.APIView):
 #     parser_classes = (FileUploadParser,)
 #
@@ -130,6 +129,7 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs["pk"]
@@ -155,12 +155,15 @@ class PostDetailView(DetailView):
         context['comments'] = comments
         context['form'] = form
 
-        if form.is_valid():
-            content = form.cleaned_data['content']
-
+        if request.method == "POST":
             form = CommentForm()
-            context['form'] = form
-            return self.render_to_response(context=context)
+            if form.is_valid():
+                form.save()
+                content = form.cleaned_data.get('content')
+                context['form'] = form
+                return self.render_to_response(context=context)
+            else:
+                form = CommentForm()
 
         return self.render_to_response(context=context)
 

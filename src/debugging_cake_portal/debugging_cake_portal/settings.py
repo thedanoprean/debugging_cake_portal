@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'posts',
     'tag',
     'forum',
+    'hitcount',
     'comment',
     'user_profile',
     'crispy_forms',

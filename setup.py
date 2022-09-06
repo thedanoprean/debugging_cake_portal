@@ -3,8 +3,11 @@ from setuptools import setup, find_packages
 install_requires = [
     "django ~= 4.0",
     "django-crispy-forms ~=1.14.0",
+    "jadecore3",
+    "jadestream",
     "rdcore3",
     "rdcore3.install",
+    "rdcore3.qronos",
 ]
 
 tests_require = [

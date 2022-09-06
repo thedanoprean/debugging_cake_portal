@@ -8,7 +8,8 @@ from rdcore.deployment.automation import *
 env.project_name = 'debugging_cake_portal'
 # env.svn_url_template = 'https://serv-sources.jouve-hdi.com/jouve/bpo_geodis/{project_name}'
 env.git_url_template = 'https://git.jouve-hdi.com/luminess-dev-experiments/debugging_cake_portal.git'
-env.project_dir_template = '/home/projet/{project_name}/{project_name}'
+# env.project_dir_template = '/home/projet/{project_name}/{project_name}'
+env.project_dir_template = "/projet/apps/{project_name}"
 # Build variables
 env.build_python_version = "3.8"
 env.build_variant = "focal"

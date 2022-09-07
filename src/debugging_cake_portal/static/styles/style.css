@@ -1,3 +1,7 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 .header {
     width: 100%;
     min-height: 60px;
@@ -8,17 +12,17 @@
 
 
 .header-title{
-    width: 15%;
+    width: 17%;
     display: flex;
     align-items:center;
-    font-family: 'Caveat', cursive;
-    font-size: 28px;
+    font-family: 'Silkscreen', cursive;
+    font-size: 20px;
     padding-left: 25px;
     color: white;
 }
 
 .header-buttons{
-    width: 85%;
+    width: 83%;
     display: flex;
     align-items:center;
     justify-content: space-between;
@@ -28,7 +32,7 @@
     width: 20%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .auth-buttons {
@@ -40,15 +44,12 @@
 
 
 .btn {
-    border: 3px solid #c49c21;
+    border: 2px solid #d9fad9;
     border-radius: 22px;
-    color: #c49c21;
+    color: #d9fad9;
     background-color: transparent;
-    font-family: 'Silkscreen', cursive;
-    font-size: 16px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    font-size: 18px;
     transition: all300ms ease;
-
 }
 
 .btn::before,
@@ -58,12 +59,30 @@
   content: "";
 }
 
-.btn:hover {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+.btn2 {
+    color: #3B3530;
+    border: 0px;
+    transition: 0.3s;
 }
 
+.btn2:hover {
+    background-color: rgba(0,0,0,0.1);
+}
 
+.custom-button {
+    color: #3B3530;
+    border: 2px solid #3B3530;
+    border-radius: 22px;
+    font-weight: 600;
+    transition: 0.3s;
+    background-color: transparent;
+    padding: 5px 20px;
+    margin-right: auto;
+}
+
+.custom-button:hover {
+    background-color: rgba(0,0,0,0.1);
+}
 
 .ribbon {
     width:195px;
@@ -81,15 +100,14 @@
 }
 
 .loginform {
-  display: flex;
+  margin-top: 200px;
+  display: block;
   height: 700px;
   width: 400px;
   align-items: center;
+  justify-content: center;
 }
 
-.btn-success {
-    width:400px;
-}
 
 .registerpage {
     display:flex;
@@ -175,6 +193,8 @@
 
 .article-title {
   color: #444444;
+  padding-top: 10px;
+  font-weight: 900;
 }
 
 a.article-title:hover {
@@ -183,24 +203,37 @@ a.article-title:hover {
 }
 
 .article-content {
-  white-space: pre-line;
+  font-size: 18px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
 }
 
 .article-img {
-  height: 65px;
-  width: 65px;
+  height: 30px;
+  width: 30px;
   margin-right: 16px;
 }
 
 .article-metadata {
-  padding-bottom: 1px;
+  padding-bottom: 12px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+  border-bottom: 1px solid #e3e3e3;
+  position: relative;
+}
+
+.article-metadata-buttons {
+    position: absolute;
+    top: -12px;
+    right: -12px;
 }
 
 .article-metadata a:hover {
   color: #333;
   text-decoration: none;
+}
+
+.article-metadata a {
+    font-size: 18px;
 }
 
 .article-svg {
@@ -222,8 +255,26 @@ a.article-title:hover {
 
 .content-section {
   background: #ffffff;
-  padding: 10px 20px;
+  padding: 20px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 20px;
 }
+
+.media-body {
+    padding: 0px 20px;
+}
+
+.comment-section {
+    margin: 0px 60px;
+}
+
+.comment-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 900;
+}
+

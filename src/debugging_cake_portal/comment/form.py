@@ -7,6 +7,7 @@ class CommentForm(forms.ModelForm):
         'class': 'md-textarea form-control',
         'placeholder': 'comment here ...',
         'rows': '4',
+        'label': 'Comment'
     }))
 
     class Meta:

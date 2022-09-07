@@ -4,15 +4,22 @@
   <div class="container-fluid my-5">
 
     <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+
     <div class="media-body">
       <div class="article-metadata">
+          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
         <a class="mr-2" href="#">{{ post.author }}</a>
         <small class="text-muted">{{ post.date_created|date:"F d, Y" }}</small>
         {% if post.author == user %}
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">Update</a>
-            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">Delete</a>
+          <div class="article-metadata-buttons">
+            <a class="btn btn2 edit btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">
+                <span class="material-symbols-outlined">
+                    edit
+                </span></a>
+            <a class="btn btn2 delete btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">
+                <span class="material-symbols-outlined">
+                    delete
+                </span></a>
            </div>
         {% endif %}
         </div>
@@ -23,11 +30,11 @@
   </div>
 
 <!--comments-->
-            <div class="section ">
-                <div class="container ">
-                    <h2>Comments({{post_comments_count}})</h2>
-                    <div class="row ">
-                        <div class="col-lg-8 mx-auto ">
+            <div class=" comment-section">
+                <div class="comment-container ">
+                    <div class="comment-title"> Comments({{post_comments_count}})</div>
+                    <div class=" ">
+                        <div class=" ">
                             <!--display coment-->
 
                             <div class="media-list">
@@ -52,7 +59,7 @@
                                 <div class="form-group">
                                     {{form}}
                                 </div>
-                                <button class="btn btn-primary btn-block " type="submit">Comment</button>
+                                <button class="custom-button " type="submit">Comment</button>
                             </form>
                         </div>
                     </div>

@@ -40,7 +40,7 @@
                                             <b> {{comment.user}}</b>
                                             <time class="ml-4 opaciy-70 small-3"> {{comment.date}}</time>
                                         </div>
-                                        <p> {{comment.content}}</p>
+                                        <p> {{comment.content|truncatechars:10}}</p>
                                     </div>
                                 </div>
                                 {% endfor %}

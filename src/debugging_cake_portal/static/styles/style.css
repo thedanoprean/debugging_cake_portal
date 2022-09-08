@@ -214,6 +214,11 @@ a.article-title:hover {
   margin-right: 16px;
 }
 
+.article-img2 {
+  height: 30px;
+  width: 30px;
+}
+
 .article-metadata {
   padding-bottom: 12px;
   margin-bottom: 4px;
@@ -278,3 +283,11 @@ a.article-title:hover {
     font-weight: 900;
 }
 
+.comment-user {
+    margin-left: 10px;
+}
+
+p.comment-content {
+    font-weight: 300;
+    padding: 0px 45px;
+}

@@ -9,7 +9,7 @@
       <div class="article-metadata">
           <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
         <a class="mr-2" href="#">{{ post.author }}</a>
-        <small class="text-muted">{{ post.date_created|date:"F d, Y" }}</small>
+         <small class="text-muted">{{ post.date_created|date:"F d, Y" }}</small>
         {% if post.author == user %}
           <div class="article-metadata-buttons">
             <a class="btn btn2 edit btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">
@@ -40,14 +40,16 @@
                             <div class="media-list">
                                 {% for comment in post_comments %}
                                 <div>
-                                    <img class="avatar avatar-sm mr-4" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png">
 
                                     <div class="media-body">
-                                        <div class="small-1">
+
+                                        <hr>
+                                        <div class="comment-user">
+                                            <img class="rounded-circle article-img2" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png">
                                             <b> {{comment.user}}</b>
-                                            <time class="ml-4 opaciy-70 small-3"> {{comment.date}}</time>
+                                            <time class="ml-4 opaciy-70 small-3"> {{comment.created}}</time>
                                         </div>
-                                        <p> {{comment.content|truncatechars:10}}</p>
+                                        <p class="comment-content"> {{comment.content|truncatechars:10}}</p>
                                     </div>
                                 </div>
                                 {% endfor %}

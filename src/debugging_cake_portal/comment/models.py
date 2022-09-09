@@ -14,4 +14,4 @@ class Comment(models.Model):
         ordering = ('-created',)
 
     def __str__(self):
-        return 'Comment by {}'.format(self.name)
+        return 'Comment by {}'.format(self.user.username)

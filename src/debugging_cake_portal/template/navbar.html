@@ -1,20 +1,22 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
     <div class = "header">
         <span class="header-title">Debugging the Cake</span>
-    {% if request.user.is_authenticated %}
-        {% if request.user.is_superuser %}
-             <a href="/admin"><button class="admin-button btn" type="button">Admin</button></a>
-    {% endif %}
+
 
     {% if request.user.is_authenticated %}
         <div class="header-buttons">
             <div class="utility-buttons">
                 <a href="/profile"><button class="profile-button btn" type="button">Profile</button></a>
                 <a href="/create_post"><button class="create-post-button btn" type="button">Create Post</button></a>
+                <a href="/posts"><button class="posts-button btn" type="button">Posts</button></a>
             </div>
              <div class="auth-buttons">
+                 {% if request.user.is_authenticated %}
+                     {% if request.user.is_superuser %}
+                        <a href="/admin"><button class="admin-button btn" type="button">Admin</button></a>
+                 {% endif %}
                  <a href="/logout"><button class="logout-button btn" type="button">Logout</button></a>
              </div>
         </div>
@@ -23,6 +25,7 @@
     {% else %}
         <div class="header-buttons">
         <div class="utility-buttons">
+            <a href="/posts"><button class="posts-button btn" type="button">Posts</button></a>
             <a href="/tag/"><button class="tag-button btn">Tags</button></a>
             <a href="/about/"><button class="about-button btn">About </button></a>
             <a href="/users/"><button class="users-button btn">Users</button></a>

@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'cake_user',
     'posts',
     'tag',
-    'forum',
     'hitcount',
     'comment',
     'user_profile',
@@ -157,3 +156,5 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+NUM_OF_CHARS_TO_TRUNCATE = 10

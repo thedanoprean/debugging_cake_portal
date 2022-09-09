@@ -15,7 +15,7 @@ tests_require = [
 ]
 
 setup(name='debugging_cake_portal',
-      version='0.1.6',
+      version='0.1.7',
       description="Luminess debugging forum.",
       author="Python Intern Team Luminess",
       install_requires=install_requires,

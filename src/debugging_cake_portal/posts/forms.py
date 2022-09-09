@@ -6,7 +6,8 @@ class UploadPost(forms.ModelForm):
     title = forms.CharField(max_length=50)
     description = forms.CharField(max_length=200)
     file = forms.FileField()
+    filename = forms.CharField(max_length=100)
 
     class Meta:
         model = Post
-        fields = ("title", "description", "author", "post_tag", "file",)
+        fields = ("title", "description", "post_tag", "file",)

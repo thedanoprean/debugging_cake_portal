@@ -8,6 +8,7 @@ class Comment(models.Model):
     content = models.TextField()
     post = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL)
     created = models.DateTimeField(auto_now_add=True)
+    parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ('-created',)

@@ -43,18 +43,20 @@ def upload_file(request):
             return HttpResponseRedirect('/success/url/')
     else:
         form = PostSerializer()
-    return render(request, 'CreatePost.html', {'form': form})
+    return render(request, '.html', {'form': form})
 
 
 def Upload_Form(request):
     if request.method == 'POST':
-        form = UploadPost(request.POST, request.FILES)
+        form = UploadPost(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect('/view/')
+            return redirect('/posts/')
     else:
         form = UploadPost()
-    return render(request, 'CreatePost.html', {'form': form})
+
+    return render(request, 'post_form.html', {'form': form})
+
 
 
 @api_view(['POST'])
@@ -171,6 +173,7 @@ class PostCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.post = self.request.FILES
         return super().form_valid(form)
 
 
@@ -180,6 +183,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.post = self.request.FILES
         return super().form_valid(form)
 
     def test_func(self):

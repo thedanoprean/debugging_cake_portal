@@ -21,7 +21,7 @@ setup(name='debugging_cake_portal',
       install_requires=install_requires,
       package_dir={"": "src"},
       #packages=find_packages("src", exclude=("tests",)),
-      packages=["debugging_cake_portal", "cake_user", "posts"],
+      packages=["debugging_cake_portal", "debugging_cake_portal.cake_user", "debugging_cake_portal.posts"],
       test_suite="tests",
       tests_require=tests_require,
       extras_require={

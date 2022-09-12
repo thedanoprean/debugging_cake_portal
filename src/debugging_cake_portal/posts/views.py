@@ -16,25 +16,11 @@ from .serializers import PostSerializer
 from .forms import UploadPost
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
-<<<<<<< HEAD
 
-# class FileUploadView(views.APIView):
-#     parser_classes = (FileUploadParser,)
-#
-#     def put(self, request, filename, format=None):
-#         form = PostSerializer(request.POST, request.FILES)
-#         file_obj = request.FILES['file']
-#         if file_obj.is_valid():
-#             file_obj.save()
-#             return Response(status=204)
-#         else:
-#             form = PostSerializer()
-#         return render(request, 'CreatePost.html', {'form': form})
-=======
->>>>>>> develop
 from comment.form import CommentForm
 from comment.models import Comment
 from .forms import PostForm
+
 
 def Upload_Form(request):
     if request.method == 'POST':
@@ -195,4 +181,3 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def onButtonClick():
     document.getElementById('textInput').className = "show"
-

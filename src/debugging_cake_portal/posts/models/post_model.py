@@ -1,4 +1,6 @@
 import os
+import uuid
+
 from django.db import models
 from django.dispatch import receiver
 from django.utils import timezone
@@ -27,13 +29,24 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            saved_file = self.file
+            self.file = None
+            super(Post, self).save(*args, **kwargs)
+            self.file = saved_file
+            if 'force_insert' in kwargs:
+                kwargs.pop('force_insert')
 
-def user_directory_path(instance, filename):
-    return 'user_{0}/{1}'.format(instance.user.id, filename)
+        super().save(*args, **kwargs)
 
 
-def content_file_name(instance, filename):
-    return '/'.join(['media', instance.user.username, filename])
+# def user_directory_path(instance, filename):
+#     return 'user_{0}/{1}'.format(instance.user.id, filename)
+#
+#
+# def content_file_name(instance, filename):
+#     return '/'.join(['upload', instance.user.username, filename])
 
 
 @receiver(models.signals.post_delete, sender=Post)

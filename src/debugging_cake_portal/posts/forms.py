@@ -11,3 +11,9 @@ class UploadPost(forms.ModelForm):
     class Meta:
         model = Post
         fields = ("title", "description", "post_tag", "file",)
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = "__all__"

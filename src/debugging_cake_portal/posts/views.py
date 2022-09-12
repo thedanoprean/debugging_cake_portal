@@ -16,35 +16,9 @@ from .serializers import PostSerializer
 from .forms import UploadPost
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
-
-
-# class FileUploadView(views.APIView):
-#     parser_classes = (FileUploadParser,)
-#
-#     def put(self, request, filename, format=None):
-#         form = PostSerializer(request.POST, request.FILES)
-#         file_obj = request.FILES['file']
-#         if file_obj.is_valid():
-#             file_obj.save()
-#             return Response(status=204)
-#         else:
-#             form = PostSerializer()
-#         return render(request, 'CreatePost.html', {'form': form})
 from comment.form import CommentForm
 from comment.models import Comment
-
-
-def upload_file(request):
-    if request.method == 'POST':
-        form = PostSerializer(request.POST, request.FILES)
-        if form.is_valid():
-            # file is saved
-            form.save()
-            return HttpResponseRedirect('/success/url/')
-    else:
-        form = PostSerializer()
-    return render(request, '.html', {'form': form})
-
+from .forms import PostForm
 
 def Upload_Form(request):
     if request.method == 'POST':
@@ -56,7 +30,6 @@ def Upload_Form(request):
         form = UploadPost()
 
     return render(request, 'post_form.html', {'form': form})
-
 
 
 @api_view(['POST'])
@@ -83,13 +56,6 @@ class PostViewSet(viewsets.ViewSet):
         post = get_object_or_404(Post, pk=pk)
         serializer = self.serializer(post)
         return Response(serializer.data, status.HTTP_200_OK)
-
-    # def create(self, request):
-    #     serializer = self.serializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response({'error': 'Invalid Data'}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         post = get_object_or_404(Post, pk=pk)
@@ -154,7 +120,6 @@ class PostDetailView(HitCountDetailView):
             return redirect(reverse("post-detail", kwargs={'pk': int(post.id)}))
 
     def get_context_data(self, **kwargs):
-
         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
         post_comments = Comment.objects.all().filter(post=self.object.id)
         context = super().get_context_data(**kwargs)
@@ -171,9 +136,16 @@ class PostCreateView(CreateView):
     model = Post
     fields = ['title', 'description', 'post_tag', 'file']
 
+    # def post_id(self):
+    #     post = Post.objects.get(pk=id)
+    #     if self.request.method == "POST":
+    #         form = PostForm(self.request.POST, instance=post)
+    #         form.save()
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.post = self.request.FILES
+        form.save()
         return super().form_valid(form)
 
 
@@ -184,7 +156,8 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.post = self.request.FILES
-        return super().form_valid(form)
+        if form.is_valid():
+            return super().form_valid(form)
 
     def test_func(self):
         post = self.get_object()
@@ -202,10 +175,3 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
-
-# def delete(request, pk):
-#     if request.method == 'GET':
-#         post = Post.objects.get(pk=pk)
-#         if post:
-#             post.delete()
-#     return redirect('posts/')

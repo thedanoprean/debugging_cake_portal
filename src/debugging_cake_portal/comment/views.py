@@ -11,6 +11,10 @@ class CommentView(DetailView):
     model = Post
     template_name = ""
 
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.object = None
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs["pk"]
@@ -40,12 +44,23 @@ class CommentView(DetailView):
         if form.is_valid():
             content = form.cleaned_data['content']
 
+            try:
+                parent = form.cleaned_data['parent']
+            except:
+                parent = None
+
             comment = Comment.objects.create(
-                 content=content, post=post
+                content=content, post=post
             )
+
+            new_comment = Comment(content=content, author=self.request.user, CommentPost=self.get_object(),
+                                  parent=parent)
+            new_comment.save()
 
             form = CommentForm()
             context['form'] = form
             return self.render_to_response(context=context)
+            # return redirect(self.request.path_info)
 
         return self.render_to_response(context=context)
+        # return redirect(self.request.path_info)

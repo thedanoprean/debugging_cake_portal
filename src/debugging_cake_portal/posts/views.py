@@ -17,7 +17,6 @@ from .forms import UploadPost
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 
-
 # class FileUploadView(views.APIView):
 #     parser_classes = (FileUploadParser,)
 #
@@ -56,7 +55,6 @@ def Upload_Form(request):
         form = UploadPost()
 
     return render(request, 'post_form.html', {'form': form})
-
 
 
 @api_view(['POST'])
@@ -154,7 +152,6 @@ class PostDetailView(HitCountDetailView):
             return redirect(reverse("post-detail", kwargs={'pk': int(post.id)}))
 
     def get_context_data(self, **kwargs):
-
         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
         post_comments = Comment.objects.all().filter(post=self.object.id)
         context = super().get_context_data(**kwargs)
@@ -203,9 +200,14 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
 # def delete(request, pk):
 #     if request.method == 'GET':
 #         post = Post.objects.get(pk=pk)
 #         if post:
 #             post.delete()
 #     return redirect('posts/')
+
+
+def onButtonClick():
+    document.getElementById('textInput').className = "show"

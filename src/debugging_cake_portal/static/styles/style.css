@@ -302,3 +302,25 @@ p.comment-content {
     font-weight: 300;
     padding: 0px 45px;
 }
+
+.comment_form {
+    font-weight: 700;
+}
+
+.reply-content {
+    font-weight: 300;
+    font-size: 17px;
+    padding-bottom: 10px;
+}
+
+.reply-content2 {
+    padding-top: 10px;
+    padding-left: 51px;
+}
+
+.hide{
+  display:none;
+}
+.show{
+  display:block;
+}

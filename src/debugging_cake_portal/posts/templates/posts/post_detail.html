@@ -32,29 +32,71 @@
   </div>
 
 <!--comments-->
-            <div class=" comment-section">
+
+
+            <div class="comment-section">
                 <div class="comment-container ">
                     <div class="comment-title"> Comments({{post_comments_count}})</div>
+
+                    {% if user.is_authenticated %}
+                    <form action="" method="POST" id="main_form" class="comment_form">
+                    </form>
+
                     <div class=" ">
-                        <div class=" ">
-                            <!--display coment-->
+                         <div class=" ">
+                            <!--display comment-->
 
                             <div class="media-list">
                                 {% for comment in post_comments %}
-                                <div>
-                                    <div class="media-body">
-
-                                        <hr>
-                                        <div class="comment-user">
-                                            <img class="rounded-circle article-img2" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png">
-                                            <b> {{comment.user}}</b>
-                                            <time class="ml-4 opaciy-70 small-3"> {{comment.created}}</time>
+                                    {% if comment.is_parent %}
+                                        <div>
+                                            <div class="media-body">
+                                                <hr>
+                                                <div class="comment-user">
+                                                <img class="rounded-circle article-img2" src="{{ comment.user.profile.image.url }}">
+                                                    <b> {{comment.user}}</b>
+                                                    <time class="ml-4 opacity-70 small-3"> {{comment.created}}</time>
+                                                </div>
+                                                <p class="comment-content"> {{comment.content|truncatechars:10}}</p>
+                                            </div>
+                                            <form action="" method="POST" id="main_form" class="comment_form">
+                                                <div>
+                                                &nbsp; &nbsp; &nbsp;
+                                                &nbsp; &nbsp; &nbsp;
+<!--                                                    <label form="comment">Reply here:</label>-->
+<!--                                                    <input type="text" name="content"> <input type="hidden" value="{{ comment.pk }}" name="parent"> {% csrf_token %} <input type="submit" value="Reply">-->
+                                                        <p id='demo' style='display: none'> <input type="text" name="content"> <input type="hidden" value="{{ comment.pk }}" name="parent"> {% csrf_token %} <input type="submit" value="Reply"></p>
+                                                        &nbsp; &nbsp; &nbsp;
+                                                        <button type='button' onclick="toggleText()">Reply</button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <p class="comment-content"> {{comment.content|truncatechars:10}}</p>
-                                    </div>
-                                </div>
+                                    {% endif %}
+
+                                    <script>
+                                        function toggleText() {
+                                            var text = document.getElementById("demo");
+                                            if (text.style.display === "none") {
+                                                 text.style.display = "block";
+                                            } else {
+                                              text.style.display = "none";
+                                            }
+                                        }
+                                    </script>
+
+                                    {% for replies in comment.children %}
+                                        <h3 class="reply-content">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <img class="rounded-circle article-img2" src="{{ replies.user.profile.image.url }}">
+                                        <b>{{ replies.user }} : </b>
+                                        <div class="reply-content2"> {{ replies.content }} </div>
+                                        </h3>
+                                    {% endfor %}
+
                                 {% endfor %}
                             </div>
+
+                    {% else %} <h2>You need to Login in order to comment</h2>
+                    {% endif %}
 
                             <!--display the form-->
                             <form method="POST">

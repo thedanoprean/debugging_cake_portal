@@ -16,6 +16,7 @@ from .serializers import PostSerializer
 from .forms import UploadPost
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
+<<<<<<< HEAD
 
 # class FileUploadView(views.APIView):
 #     parser_classes = (FileUploadParser,)
@@ -29,21 +30,11 @@ from hitcount.views import HitCountDetailView
 #         else:
 #             form = PostSerializer()
 #         return render(request, 'CreatePost.html', {'form': form})
+=======
+>>>>>>> develop
 from comment.form import CommentForm
 from comment.models import Comment
-
-
-def upload_file(request):
-    if request.method == 'POST':
-        form = PostSerializer(request.POST, request.FILES)
-        if form.is_valid():
-            # file is saved
-            form.save()
-            return HttpResponseRedirect('/success/url/')
-    else:
-        form = PostSerializer()
-    return render(request, '.html', {'form': form})
-
+from .forms import PostForm
 
 def Upload_Form(request):
     if request.method == 'POST':
@@ -81,13 +72,6 @@ class PostViewSet(viewsets.ViewSet):
         post = get_object_or_404(Post, pk=pk)
         serializer = self.serializer(post)
         return Response(serializer.data, status.HTTP_200_OK)
-
-    # def create(self, request):
-    #     serializer = self.serializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response({'error': 'Invalid Data'}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         post = get_object_or_404(Post, pk=pk)
@@ -168,9 +152,16 @@ class PostCreateView(CreateView):
     model = Post
     fields = ['title', 'description', 'post_tag', 'file']
 
+    # def post_id(self):
+    #     post = Post.objects.get(pk=id)
+    #     if self.request.method == "POST":
+    #         form = PostForm(self.request.POST, instance=post)
+    #         form.save()
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.post = self.request.FILES
+        form.save()
         return super().form_valid(form)
 
 
@@ -181,7 +172,8 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.post = self.request.FILES
-        return super().form_valid(form)
+        if form.is_valid():
+            return super().form_valid(form)
 
     def test_func(self):
         post = self.get_object()
@@ -201,13 +193,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
-# def delete(request, pk):
-#     if request.method == 'GET':
-#         post = Post.objects.get(pk=pk)
-#         if post:
-#             post.delete()
-#     return redirect('posts/')
-
-
 def onButtonClick():
     document.getElementById('textInput').className = "show"
+

@@ -1,35 +1,16 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.utils.decorators import method_decorator
-from rest_framework import viewsets, status, views
-from rest_framework.decorators import api_view
-from rest_framework.parsers import FileUploadParser
-
-from .serializers import PostSerializer
-from .models import Post
-from rest_framework.response import Response
-from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponseRedirect, JsonResponse
-from .serializers import PostSerializer
-from .forms import UploadPost
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
+from rest_framework import viewsets, status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from comment.form import CommentForm
 from comment.models import Comment
-from .forms import PostForm
-
-def Upload_Form(request):
-    if request.method == 'POST':
-        form = UploadPost(request.POST, request.FILES, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            return redirect('/posts/')
-    else:
-        form = UploadPost()
-
-    return render(request, 'post_form.html', {'form': form})
+from .models import Post
+from .serializers import PostSerializer
 
 
 @api_view(['POST'])
@@ -135,12 +116,6 @@ class PostDetailView(HitCountDetailView):
 class PostCreateView(CreateView):
     model = Post
     fields = ['title', 'description', 'post_tag', 'file']
-
-    # def post_id(self):
-    #     post = Post.objects.get(pk=id)
-    #     if self.request.method == "POST":
-    #         form = PostForm(self.request.POST, instance=post)
-    #         form.save()
 
     def form_valid(self, form):
         form.instance.author = self.request.user

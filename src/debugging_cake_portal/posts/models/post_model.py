@@ -5,8 +5,10 @@ from django.db import models
 from django.dispatch import receiver
 from django.utils import timezone
 from cake_user.models.user_model import User
+from debugging_cake_portal.settings import num_for_prev
 from tag.models.tag_model import Tag
 from django.urls import reverse
+from django.shortcuts import get_object_or_404, redirect, render
 
 
 def get_upload_to(instance, filename):
@@ -25,7 +27,12 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.author}'s post in {self.post_tag}"
-
+    @property
+    def results(self):
+        file = self.file.path
+        data_file = open(file, 'r')
+        data = data_file.read(num_for_prev)
+        return data
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 

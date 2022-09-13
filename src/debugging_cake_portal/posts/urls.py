@@ -8,7 +8,7 @@ from .views import (
     homepage,
     list_posts,
     adaugare_post,
-    Upload_Form,
+    # Upload_Form,
     PostListView,
     PostDetailView,
     PostCreateView, PostUpdateView, PostDeleteView

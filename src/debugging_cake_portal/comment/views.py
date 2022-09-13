@@ -42,7 +42,11 @@ class CommentView(DetailView):
         context['form'] = form
 
         if form.is_valid():
-            content = form.cleaned_data['content']
+
+            try:
+                content = form.cleaned_data['content']
+            except:
+                content = None
 
             try:
                 parent = form.cleaned_data['parent']

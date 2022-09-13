@@ -31,9 +31,7 @@
     </article>
   </div>
 
-<!--comments-->
-
-
+            <!--comments-->
             <div class="comment-section">
                 <div class="comment-container ">
                     <div class="comment-title"> Comments({{post_comments_count}})</div>
@@ -57,41 +55,44 @@
                                                     <b> {{comment.user}}</b>
                                                     <time class="ml-4 opacity-70 small-3"> {{comment.created}}</time>
                                                 </div>
-                                                <p class="comment-content"> {{comment.content|truncatechars:10}}</p>
+                                                <p class="comment-content"> {{comment.content}}</p>
                                             </div>
-                                            <form action="" method="POST" id="main_form" class="comment_form">
-                                                <div>
-                                                &nbsp; &nbsp; &nbsp;
-                                                &nbsp; &nbsp; &nbsp;
+                                            <form action="" method="POST" id="main_form2" class="comment_form">
+                                                <div class="reply-btn">
+
 <!--                                                    <label form="comment">Reply here:</label>-->
 <!--                                                    <input type="text" name="content"> <input type="hidden" value="{{ comment.pk }}" name="parent"> {% csrf_token %} <input type="submit" value="Reply">-->
-                                                        <p id='demo' style='display: none'> <input type="text" name="content"> <input type="hidden" value="{{ comment.pk }}" name="parent"> {% csrf_token %} <input type="submit" value="Reply"></p>
-                                                        &nbsp; &nbsp; &nbsp;
-                                                        <button type='button' onclick="toggleText()">Reply</button>
+                                                        <p class="hidden-div" id='{{comment.pk}}' style='display: none'> <input type="text" name="content"> <input type="hidden" value="{{ comment.pk }}" name="parent"> {% csrf_token %} <input class="custom-button" type="submit" value="Reply"></p>
+
+                                                        <button id='{{comment.pk}}-button' class="custom-button reply-button" type='button' onclick="toggleText({{comment.pk}})">Reply</button>
                                                 </div>
                                             </form>
                                         </div>
                                     {% endif %}
 
                                     <script>
-                                        function toggleText() {
-                                            var text = document.getElementById("demo");
+                                        function toggleText(e) {
+                                            var text = document.getElementById(e);
+                                            var name = "" + e + "-button";
+                                            var button = document.getElementById(name);
+
                                             if (text.style.display === "none") {
                                                  text.style.display = "block";
-                                            } else {
-                                              text.style.display = "none";
+                                            }
+
+                                            if (button.style.display !== "none") {
+                                                 button.style.display = "none";
                                             }
                                         }
                                     </script>
 
                                     {% for replies in comment.children %}
-                                        <h3 class="reply-content">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <h3 class="reply-content">
                                             <img class="rounded-circle article-img2" src="{{ replies.user.profile.image.url }}">
                                         <b>{{ replies.user }} : </b>
                                         <div class="reply-content2"> {{ replies.content }} </div>
                                         </h3>
                                     {% endfor %}
-
                                 {% endfor %}
                             </div>
 

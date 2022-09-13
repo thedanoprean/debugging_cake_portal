@@ -179,5 +179,5 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
-def onButtonClick():
+def onButtonClick(document=None):
     document.getElementById('textInput').className = "show"

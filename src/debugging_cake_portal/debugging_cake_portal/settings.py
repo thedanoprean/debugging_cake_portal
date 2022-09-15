@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tag',
     'hitcount',
     'comment',
+    'dashboard_analysis',
     'user_profile',
     'crispy_forms',
     'django.contrib.admin',

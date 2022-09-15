@@ -152,5 +152,14 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
+def count_posts_of(user):
+    return Post.objects.filter(author=user).count()
+
+
+def num_post(request):
+    num_posts = Post.objects.filter(author=request.user).count()
+    return render(request, 'some_template.html', {'num_posts': num_posts})
+
+
 def onButtonClick(document=None):
     document.getElementById('textInput').className = "show"

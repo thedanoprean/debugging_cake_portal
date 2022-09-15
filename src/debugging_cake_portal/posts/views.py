@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -9,9 +10,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from comment.form import CommentForm
 from comment.models import Comment
+from like.models import Like
 from .models import Post
 from .serializers import PostSerializer
-
+from django.http import JsonResponse
 
 @api_view(['POST'])
 def adaugare_post(request):
@@ -22,6 +24,81 @@ def adaugare_post(request):
         return JsonResponse("Done", status=201, safe=False)
     else:
         return Response(serializer.errors, status=400)
+
+
+def like_post(self, request):
+    user = request.user
+    if request.method == "POST":
+        post_id = request.POST.get('post_id')
+        post_obj = Post.objects.get(id=post_id)
+
+        if user in post_obj.liked.all():
+             post_obj.liked.remove()
+        else:
+            post_obj.liked.add(user)
+        like, created = Like.objects.get_or_create(user=user, post_id=post_id)
+        if not created:
+            if like.value == 'Like':
+                like.value = 'Unlike'
+            else:
+                like.value = 'Like'
+        like.save()
+
+        return JsonResponse({
+            'success': True,
+            'url': reverse('index')})
+
+
+def like_unlike_post(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = Post.objects.get(id=post_id)
+
+        if user in post_obj.liked.all():
+            post_obj.liked.remove()
+        else:
+            post_obj.liked.add(user)
+
+        like, created = Like.objects.get_or_create(user=user, post_id=post_id)
+
+        if not created:
+            if like.value=='Like':
+                like.value='Unlike'
+            else:
+                like.value='Like'
+        else:
+            like.value='Like'
+
+            post_obj.save()
+            like.save()
+
+        # data = {
+        #     'value': like.value,
+        #     'likes': post_obj.liked.all().count()
+        # }
+
+        # return JsonResponse(data, safe=False)
+    return redirect('index')
+
+
+def like(request):
+    if request.POST.get('action') == 'post':
+        result = ''
+        id = int(request.POST.get('postid'))
+        post = get_object_or_404(Post, id=id)
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
+            post.like_count -= 1
+            result = post.like_count
+            post.save()
+        else:
+            post.likes.add(request.user)
+            post.like_count += 1
+            result = post.like_count
+            post.save()
+
+        return JsonResponse({'result': result, })
 
 
 class PostViewSet(viewsets.ViewSet):
@@ -111,6 +188,8 @@ class PostDetailView(HitCountDetailView):
         })
 
         return context
+
+
 
 
 class PostCreateView(CreateView):

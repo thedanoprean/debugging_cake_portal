@@ -16,10 +16,87 @@
               <a class="mr-2" href="#">{{ post.author }}</a>
               <small class="text-muted">{{ post.date_created|date:"F d, Y" }}</small>
             </div>
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+            <h2><a class="article-title" href="{% url 'posts:post-detail' post.id %}">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.description|truncatechars:10}}</p>
+             <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form' id='{{obj.id}}'>
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value={{obj.id}}>
+
+                            <button type="submit" class="ui button like-btn{{obj.id}}">
+                                {% if user not in obj.liked.all %}
+                                    Like
+                                {% else %}
+                                    Unlike
+                                {% endif %}
+                            </button>
+                            <div class="ui grid">
+                                <div class="column">
+                                    <div class="like-count{{obj.id}}"> {{obj.num_likes}} </div>
+                                </div>
+                                <div class="column">
+                                    likes
+                                </div>
+                            </div>
+                    </form>
+
+
           </div>
-        </article>
+        </article>\
+{% block scripts %}
+    <script>
+        $( document ).ready(function() {
+            let display = false
+            $(".cmt_btn").click(function () {
+                if (display===false) {
+                    $(this).next(".comment-box").show("slow");
+                    display=true
+                } else {
+                    $(this).next(".comment-box").hide("slow");
+                    display=false
+                }
+            });
+
+            $('.like-form').submit(function(e){
+                e.preventDefault()
+
+                const post_id = $(this).attr('id')
+
+                const likeText = $(`.like-btn${post_id}`).text()
+                const trim = $.trim(likeText)
+
+                const url = $(this).attr('action')
+
+                let res;
+                const likes = $(`.like-count${post_id}`).text()
+                const trimCount = parseInt(likes)
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        'post_id':post_id,
+                    },
+                    success: function(response) {
+                        if(trim === 'Unlike') {
+                            $(`.like-btn${post_id}`).text('Like')
+                            res = trimCount - 1
+                        } else {
+                            $(`.like-btn${post_id}`).text('Unlike')
+                            res = trimCount + 1
+                        }
+
+                        $(`.like-count${post_id}`).text(res)
+                    },
+                    error: function(response) {
+                        console.log('error', response)
+                    }
+                })
+
+            })
+        });
+    </script>
+{% endblock scripts %}
     {% endfor %}
 {% endblock cont %}
 

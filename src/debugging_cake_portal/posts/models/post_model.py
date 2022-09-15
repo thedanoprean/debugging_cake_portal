@@ -23,6 +23,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     post_tag = models.ForeignKey(Tag, null=True, on_delete=models.SET_NULL)
     file = models.FileField(upload_to=get_upload_to, blank=True, null=True)
+    liked = models.ManyToManyField(User, default=None, blank=True, related_name='liked')
     # filename = models.CharField(max_length=100, default=file.name, blank=True)
 
     def __str__(self):
@@ -33,6 +34,10 @@ class Post(models.Model):
         data_file = open(file, 'r')
         data = data_file.read(num_for_prev)
         return data
+
+    @property
+    def num_likes(self):
+        return self.liked.all().count()
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 

@@ -7,7 +7,7 @@
 
 {% block content %}
     {% include 'navbar.html'%}
-{% block cont %}
+
 {% for post in posts %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
@@ -21,6 +21,22 @@
           </div>
         </article>
     {% endfor %}
-{% endblock cont %}
+
+    <nav aria-label="Page navigation example">
+  <ul class="pagination">
+{% if posts.has_previous %}
+                <li class="page-item"><a class = "page-link" href="?page=1">&laquo First</a></li>
+                <li class="page-item"><a class = "page-link" href="/posts/?page={{posts.previous_page_number}}">Previous</a></li>
+            {% endif %}
+
+                <li class="page-item"><a href="#" class="page-link">Page {{ posts.numer }} of {{ posts.paginator.num_pages }} </a></li>
+
+            {% if posts.has_next %}
+                <li class="page-item"><a class = "page-link" href="/posts/?page={{posts.next_page_number}}">Next Page</a></li>
+                <li class="page-item"><a class = "page-link" href="?page={{posts.paginator.num_pages }}">Last &raquo</a></li>
+            {% endif %}
+  </ul>
+</nav>
+
 
 {% endblock content %}

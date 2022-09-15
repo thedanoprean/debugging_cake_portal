@@ -11,6 +11,7 @@ from comment.form import CommentForm
 from comment.models import Comment
 from .models import Post
 from .serializers import PostSerializer
+from django.core.paginator import Paginator, EmptyPage
 
 
 @api_view(['POST'])
@@ -22,6 +23,20 @@ def adaugare_post(request):
         return JsonResponse("Done", status=201, safe=False)
     else:
         return Response(serializer.errors, status=400)
+
+
+def list_posts(request):
+    post_list = Post.objects.all().order_by('-date_created')
+
+    # Set up Pagination
+    p = Paginator(post_list, 3)
+    page = request.GET.get('page')
+    posts = p.get_page(page)
+
+    return render(request, 'index.html',
+                  {
+                      'posts': posts
+                  })
 
 
 class PostViewSet(viewsets.ViewSet):
@@ -61,17 +76,7 @@ class PostViewSet(viewsets.ViewSet):
 
 
 def homepage(request):
-    return render(request, 'index.html')
-
-
-def list_posts(request):
-    posts = Post.objects.all()
-    data = {
-        'posts': posts
-    }
-    return render(request, 'index.html', data)
-
-    # TODO: implement about.html
+    return render(request, 'index.html');
 
 
 def about_page(request):

@@ -19,8 +19,8 @@ mimetypes.add_type("text/css", ".css", True)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/src/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'cake_user',
     'posts',
     'tag',
-    'forum',
+    'hitcount',
     'comment',
     'user_profile',
     'crispy_forms',
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'taggit',
+    'like',
 
 ]
 
@@ -156,3 +157,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+NUM_OF_CHARS_TO_TRUNCATE = 10
+num_for_prev = 10

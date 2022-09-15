@@ -1,18 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>List of tags</title>
-</head>
-<body>
-    <ul>
-        {% for tag in tag_list %}
-            <li>
-                <h1> TAG </h1>
-                    <h2> {{tag.tag_type}} </h2>
-                    <h2> {{tag.color}} </h2>
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} <title> Tags </title>{% endblock title %}
+<!--    <ul>-->
+<!--        {% for tag in tag_list %}-->
+<!--            <li>-->
+<!--                <h1> TAG </h1>-->
+<!--                    <h2> {{tag.tag_type}} </h2>-->
+<!--                    <h2> {{tag.color}} </h2>-->
+<!--            </li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+{% block content %}
+    {% include 'navbar.html' %}
+
+        <ul>
+            <h1> TAGS </h1>
+            {% for tag in tags %}
+                <li>
+                        {{ tag.tagname }} <br />
+                </li>
+            {% endfor %}
+
+            {% if tags.has_previous %}
+            <a href="/tags/?page={{tags.previous_page_number}}">Previous Page</a>
+            {% endif %}
+            {% if tags.has_next %}
+            <a href="/tags/?page={{tags.next_page_number}}">Next Page</a>
+            {% endif %}
+        </ul>
+
+
+
+{% endblock content %}

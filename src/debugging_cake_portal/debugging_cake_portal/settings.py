@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'taggit',
+    'user_chat',
+    'channels'
 
 ]
 
@@ -159,3 +161,17 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 NUM_OF_CHARS_TO_TRUNCATE = 10
 num_for_prev = 10
+
+ASGI_APPLICATION = 'debugging_cake_portal.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+        }
+    }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+        }
+    }

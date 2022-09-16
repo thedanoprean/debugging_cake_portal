@@ -14,7 +14,6 @@ from .views import (
     PostDetailView,
     PostCreateView, PostUpdateView, PostDeleteView, like_unlike_post
 )
-app_name = 'posts'
 urlpatterns = [
     path('posts/', login_required(PostListView.as_view()), name='index'),
     path('posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),

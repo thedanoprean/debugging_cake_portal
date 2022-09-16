@@ -8,6 +8,18 @@
   <link rel="stylesheet" href="https://cdn.flexmonster.com/demo.css">
 </head>
 <body>
+
+<div class="card">
+  <div class="card-header">
+    User - Comment - Reply Count
+  </div>
+  <div class="card-body">
+    <p class="card-text"> User Count: {{user_count}} <br/></p>
+    <p class="card-text"> Comment Count: {{comment_count}} <br/></p>
+    <p class="card-text"> Reply Count: {{reply_count}} <br/></p>
+  </div>
+</div>
+
 <div id="pivot-table-container" data-url="{% url 'pivot_data' %}"></div>
   <script>
     function processData(dataset) {
@@ -32,15 +44,15 @@
                     type: "json",
                     data: processData(data)
                     mapping: {
-                        "product_category": {
+                        "number_users": {
                             "caption": "Number of Users",
                             "type": "number"
                         },
-                        "payment_method": {
+                        "number_comments": {
                             "caption": "Number of Comments",
                             "type": "number"
                         },
-                        "shipping_cost": {
+                        "number_replies": {
                             "caption": "Number of Replies",
                             "type": "number"
                         },
@@ -60,15 +72,15 @@
                     type: "json",
                     data: processData(data)
                     mapping: {
-                        "product_category": {
+                        "number_users": {
                             "caption": "Number of Users",
                             "type": "number"
                         },
-                        "payment_method": {
+                        "number_comments": {
                             "caption": "Number of Comments",
                             "type": "umber"
                         },
-                        "shipping_cost": {
+                        "number_replies": {
                             "caption": "Number of Replies",
                             "type": "number"
                         },

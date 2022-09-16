@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'taggit',
-
+    # 'dashboard_analysis.apps.StatisticConfig',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +73,7 @@ TEMPLATE_DIR = Path(BASE_DIR) / 'template'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [TEMPLATE_DIR, BASE_DIR.joinpath('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

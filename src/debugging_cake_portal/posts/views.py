@@ -9,8 +9,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from comment.form import CommentForm
 from comment.models import Comment
+from cake_user.models.user_model import User
 from .models import Post
 from .serializers import PostSerializer
+from django.contrib import messages
 
 
 @api_view(['POST'])
@@ -103,11 +105,17 @@ class PostDetailView(HitCountDetailView):
     def get_context_data(self, **kwargs):
         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
         post_comments = Comment.objects.all().filter(post=self.object.id)
+        user_count = User.objects.all().count()
+        comment_count = Comment.objects.all().count()
+        post_count = Post.objects.all().count()
         context = super().get_context_data(**kwargs)
         context.update({
             'form': self.form,
             'post_comments': post_comments,
             'post_comments_count': post_comments_count,
+            'user_count': user_count,
+            'comment_count': comment_count,
+            'post_count': post_count
         })
 
         return context

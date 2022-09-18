@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     <title>Debugging Cake - Chat</title>
@@ -7,6 +8,15 @@
 {% block content %}
     {% include 'navbar.html' %}
 
-    //chat
+    <div class="chatroom-buttons">
+        <div class="chatroom-utility">
+        <a href="/chat/Python/"><button class="python-room btn">Python</button></a>
+        <a href="/chat/Java/"><button class="java-room btn">Java</button></a>
+        <a href="/chat/Drupal/"><button class="drupal-room btn">Drupal</button></a>
+        <a href="/chat/Angular/"><button class="angular-room btn">Angular</button></a>
+        <a href="/chat/DOJ/"><button class="doj-room btn">DOJ</button></a>
+        <a href="/chat/JOS/"><button class="jos-room btn">JOS</button></a>
+        </div>
+    </div>
 
 {% endblock content %}

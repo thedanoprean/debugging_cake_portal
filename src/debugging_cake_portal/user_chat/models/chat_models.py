@@ -8,4 +8,3 @@ class Chat(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     room = models.ForeignKey(ChatRoom, null=True, on_delete=models.SET_NULL)
-    test = models.CharField(max_length=100)

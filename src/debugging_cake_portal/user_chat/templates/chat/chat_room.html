@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     <title>Debugging Cake - Chat Room</title>
@@ -6,57 +7,86 @@
 
 {% block content %}
     {% include 'navbar.html' %}
-
-      <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-6">
-                <form>
-                    <div class="form-group">
-                        <label for="textarea" class="h4 pt-5">Chatroom</label>
-                        <textarea class="form-control" id="chat-text" rows="10"></textarea><br>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" id="input" type="text"></br>
-                    </div>
-                    <input class="btn btn-secondary btn-lg btn-block" id="submit" type="button" value="Send">
-                </form>
-            </div>
-        </div>
+    <div class="chat-room">
+        <a class="leave-room" href="{% url 'chat_index' %}">Return to Lobby</a>
     </div>
 
-    {{ request.user.username|json_script:"user_username" }}
-    {{ room_name|json_script:"room-name" }}
-    <script>
 
-        const user_username = JSON.parse(document.getElementById('user_username').textContent);
-        document.querySelector('#submit').onclick = function (e) {
-            const messageInputDom = document.querySelector('#input');
+    <div class="container">
+        <div id="chat-log"></div>
+
+    <div class="container">
+            <input class="textInput" id="chat-message-input" type="text" placeholder="Type a message"><br>
+            <button class="send-btn" id="chat-message-submit" type="button">Send</button>
+    </div>
+
+
+
+    {{ room_name|json_script:"room-name" }}
+    {{ request.user.username|json_script:"username" }}
+
+    <script>
+        const chatLog = document.querySelector('#chat-log')
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        if (!chatLog.hasChildNodes()) {
+            const roomMessage = document.createElement('h3')
+            roomMessage.id = 'roomMessage'
+            roomMessage.innerText = 'Looks like there are no messages yet.'
+            roomMessage.className = 'roomMessage'
+            chatLog.appendChild(roomMessage)
+        }
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const messageElement = document.createElement('div')
+            const userName = data['username']
+            const loggedInUser = JSON.parse(document.getElementById('username').textContent)
+            console.log(loggedInUser)
+            messageElement.innerText = data.username + ' : ' + data.message
+
+
+            if (userName === loggedInUser) {
+                messageElement.classList.add('message', 'sender')
+                } else {
+                messageElement.classList.add('message', 'receiver')
+                }
+
+            chatLog.appendChild(messageElement)
+
+            if (document.querySelector('#roomMessage')) {
+                document.querySelector('#roomMessage').remove()
+            }
+
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'message': message,
-                'username': user_username,
+                'message': message
             }));
             messageInputDom.value = '';
         };
-
-
-
-
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
-        const chatSocket = new WebSocket(
-            'ws://' +
-            window.location.host +
-            '/ws/chat/' +
-            roomName +
-            '/'
-        );
-
-        chatSocket.onmessage = function (e) {
-            const data = JSON.parse(e.data);
-            console.log(data)
-            document.querySelector('#chat-text').value += (data.username + ': ' + data.message + '\n')
-        }
     </script>
 
 

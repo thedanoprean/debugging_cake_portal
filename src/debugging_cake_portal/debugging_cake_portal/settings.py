@@ -162,7 +162,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 NUM_OF_CHARS_TO_TRUNCATE = 10
 num_for_prev = 10
 
-ASGI_APPLICATION = 'debugging_cake_portal.routing.application'
+ASGI_APPLICATION = 'debugging_cake_portal.asgi.application'
 
 CHANNEL_LAYERS = {
     'default': {

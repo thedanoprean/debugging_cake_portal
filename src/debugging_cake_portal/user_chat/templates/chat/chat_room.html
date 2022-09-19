@@ -8,28 +8,41 @@
 {% block content %}
     {% include 'navbar.html' %}
     <div class="chat-room">
-        <a class="leave-room" href="{% url 'chat_index' %}">Return to Lobby</a>
+        <a href="/chat/"><button class="leave-room-btn">Return to Lobby</button></a>
     </div>
 
 
     <div class="container">
-        <div id="chat-log"></div>
+        <div id="chat-log">
+            {% for chat in chats.all %}
+                {% if chat.user.username == request.user.username %}
+                    <div class="message sender">
+                        {{ chat.content }}
+                    </div>
+                {% else %}
+                    <div class="message receiver">
+                        {{ chat.content }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
-    <div class="container">
+<!--    <div class="container">-->
             <input class="textInput" id="chat-message-input" type="text" placeholder="Type a message"><br>
             <button class="send-btn" id="chat-message-submit" type="button">Send</button>
+            {{ room_name|json_script:"room-name" }}
     </div>
 
 
 
-    {{ room_name|json_script:"room-name" }}
+
     {{ request.user.username|json_script:"username" }}
 
     <script>
         const chatLog = document.querySelector('#chat-log')
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
-        if (!chatLog.hasChildNodes()) {
+        if (chatLog.childNodes.length <= 1) {
             const roomMessage = document.createElement('h3')
             roomMessage.id = 'roomMessage'
             roomMessage.innerText = 'Looks like there are no messages yet.'
@@ -51,7 +64,7 @@
             const userName = data['username']
             const loggedInUser = JSON.parse(document.getElementById('username').textContent)
             console.log(loggedInUser)
-            messageElement.innerText = data.username + ' : ' + data.message
+            messageElement.innerText = data.username + ': ' + data.message
 
 
             if (userName === loggedInUser) {

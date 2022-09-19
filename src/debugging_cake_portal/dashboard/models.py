@@ -19,14 +19,3 @@ class Analysis(models.Model):
     def __str__(self):
         return 'Analysis from: {}'.format(self.nr_users, self.nr_comments, self.nr_replies)
 
-    @property
-    def nr_users(self):
-        return self.user.all().count()
-
-    @property
-    def nr_comments(self):
-        return self.comment.all().count()
-
-    @property
-    def nr_replies(self):
-        return self.reply.all().count()

@@ -18,7 +18,6 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -29,7 +28,8 @@ urlpatterns = [
     path('', include('user_profile.urls', namespace="user_profile")),
     path('', include('posts.urls')),
     path('', include('tag.urls', namespace="tag")),
-    path('dashboard/', include('dashboard_analysis.urls')),
+    path('dashboard/', include('dashboard.urls', namespace='index')),
+#    path('', include('dashboard.urls', namespace='index')),
 ]
 
 if settings.DEBUG:

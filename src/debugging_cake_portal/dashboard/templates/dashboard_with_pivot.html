@@ -9,18 +9,21 @@
 </head>
 <body>
 
-<div class="card">
-  <div class="card-header">
-    User - Comment - Reply Count
-  </div>
-  <div class="card-body">
-    <p class="card-text"> User Count: {{user_count}} <br/></p>
-    <p class="card-text"> Comment Count: {{comment_count}} <br/></p>
-    <p class="card-text"> Reply Count: {{reply_count}} <br/></p>
-  </div>
-</div>
+<div class="container-fluid my-5">
+    {% if request.user.is_superuser %}
+    <div class="card">
+        <div class="card-header">
+            User - Comment - Post Count
+        </div>
+        <div class="card-body">
+            <p class="card-text"> User Count: {{user_count}} <br/></p>
+            <p class="card-text"> Comment Count: {{comment_count}} <br/></p>
+            <p class="card-text"> Post Count: {{post_count}} <br/></p>
+        </div>
+    </div>
+    {% endif %}
 
-<div id="pivot-table-container" data-url="{% url 'pivot_data' %}"></div>
+<div id="pivot-table-container" data-url="{% url 'dashboard:pivot_data' %}"></div>
   <script>
     function processData(dataset) {
       var result = []

@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Dashboard with Flexmonster</title>
-  <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.flexmonster.com/demo.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<head> <link rel="stylesheet" href="https://cdn.flexmonster.com/demo.css"> </head>
+{% endblock head %}
+{% block title %}   <title>Dashboard with Flexmonster</title> {% endblock title %}
 
-<div class="container-fluid my-5">
+{% block content %}
+<!--{% include 'navbar.html'%}-->
+{% load crispy_forms_tags %}
+
+
+<div id="pivot-table-container2" data-url="{% url 'dashboard:pivot_data' %}"></div>
     {% if request.user.is_superuser %}
     <div class="card">
         <div class="card-header">
@@ -22,8 +23,11 @@
         </div>
     </div>
     {% endif %}
+</div>
 
 <div id="pivot-table-container" data-url="{% url 'dashboard:pivot_data' %}"></div>
+    <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>
     function processData(dataset) {
       var result = []
@@ -102,7 +106,4 @@
     });
   </script>
 <div id="pivot-chart-container"></div>
-</body>
-
-</body>
-</html>
+{% endblock content %}

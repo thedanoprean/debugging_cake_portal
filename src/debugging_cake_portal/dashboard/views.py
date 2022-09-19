@@ -24,8 +24,7 @@ def dashboard_with_pivot(request):
 
 
 class Index(View):
-
-    def get_context_data(**kwargs):
+    def get_context_data(self, request, **kwargs):
         user_count = User.objects.all().count()
         comment_count = Comment.objects.all().count()
         post_count = Post.objects.all().count()
@@ -36,4 +35,4 @@ class Index(View):
             'post_count': post_count
         })
 
-        return context
+        return redirect(request, 'dashboard_with_pivot.html', context)

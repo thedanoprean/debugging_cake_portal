@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -11,6 +12,7 @@ from comment.form import CommentForm
 from comment.models import Comment
 from .models import Post
 from .serializers import PostSerializer
+from .filters import PostFilter
 
 
 @api_view(['POST'])
@@ -22,6 +24,66 @@ def adaugare_post(request):
         return JsonResponse("Done", status=201, safe=False)
     else:
         return Response(serializer.errors, status=400)
+
+
+class FilteredListView(ListView):
+    filterset_class = None
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs.distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context
+
+
+# Usage
+class PostListView(FilteredListView):
+    model = Post
+    filterset_class = PostFilter
+    paginate_by = 3
+    template_name = 'index.html'
+
+
+# def list_posts(request):
+#
+#     # Intai filtrare, apoi paginare
+#
+#     posts = Post.objects.all().order_by('-date_created')
+#     my_filter = PostFilter(request.GET, queryset=posts)
+#     posts = my_filter.qs
+#
+#     p = Paginator(posts, 1)
+#     page = request.GET.get('page')
+#     posts = p.get_page(page)
+#     nums = "a" * posts.paginator.num_pages
+#
+#     return render(request, 'index.html',
+#                   {
+#                       'posts': posts,
+#                       'nums': nums,
+#                       'my_filter': my_filter
+#                   })
+
+# post_list = Post.objects.all().order_by('-date_created')
+#
+# # Set up Pagination
+# p = Paginator(post_list, 1)
+# page = request.GET.get('page')
+# posts = p.get_page(page)
+# nums = "a" * posts.paginator.num_pages
+#
+# my_filter = PostFilter(request.GET, queryset=post_list)
+# post_list = my_filter.qs
+# return render(request, 'index.html',
+#               {
+#                   'posts': posts,
+#                   'nums': nums,
+#                   'my_filter': my_filter
+#               })
 
 
 class PostViewSet(viewsets.ViewSet):
@@ -62,16 +124,6 @@ class PostViewSet(viewsets.ViewSet):
 
 def homepage(request):
     return render(request, 'index.html')
-
-
-def list_posts(request):
-    posts = Post.objects.all()
-    data = {
-        'posts': posts
-    }
-    return render(request, 'index.html', data)
-
-    # TODO: implement about.html
 
 
 def about_page(request):

@@ -28,8 +28,10 @@
       <h2 class="article-title">{{ post.title }}</h2>
       <p class="article-content">{{ post.description }}</p>
       <p></p>
+    {% if post.file %}
       <p>File preview</p>
         <span>{{ post.results }}...</span>
+    {% endif %}
 
       </div>
     </article>

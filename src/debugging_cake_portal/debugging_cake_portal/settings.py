@@ -18,7 +18,6 @@ mimetypes.add_type("text/css", ".css", True)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 MEDIA_URL = '/src/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
@@ -31,13 +30,13 @@ SECRET_KEY = 'django-insecure-up9!)d+xlnj2wktkvp^uyvhg_8fn%bf4xzf7qt!l07tqd5=93r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
 
 # Application definition
 
 INSTALLED_APPS = [
+
+    # my apps
     'cake_user',
     'posts',
     'tag',
@@ -45,13 +44,18 @@ INSTALLED_APPS = [
     'comment',
     'user_profile',
     'crispy_forms',
+
+    # django stuff
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'rest_framework',
+
+    # others
     'taggit',
 
 ]

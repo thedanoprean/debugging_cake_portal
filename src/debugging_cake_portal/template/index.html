@@ -7,7 +7,21 @@
 
 {% block content %}
     {% include 'navbar.html'%}
-{% block cont %}
+
+    <div class="row">
+        <div class="col">
+            <div class="card card-body">
+                <form method="get">
+                        {{ my_filter.form }}
+                    <button class="btn btn-primary" type="submit">
+                        Search
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 {% for post in posts %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
@@ -21,6 +35,55 @@
           </div>
         </article>
     {% endfor %}
-{% endblock cont %}
 
+
+    <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+{% if page_obj.has_previous %}
+                <li class="page-item"><a class = "page-link" href="?page=1">&laquo First</a></li>
+                <li class="page-item"><a class = "page-link" href="/posts/?page={{page_obj.previous_page_number}}">Previous</a></li>
+            {% endif %}
+
+                <li class="page-item disabled"><a href="#" class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </a></li>
+
+                {% for i in nums %}
+                    <li class="page-item"><a class = "page-link" href="/posts/?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class = "page-link" href="/posts/?page={{page_obj.next_page_number}}">Next Page</a></li>
+                <li class="page-item"><a class = "page-link" href="?page={{page_obj.paginator.num_pages }}">Last &raquo</a></li>
+            {% endif %}
+  </ul>
+</nav>
+{##}
+{#    <form action="" method="get">#}
+{#    {{ filterset.form.as_p }}#}
+{#    <input type="submit" />#}
+{#  </form>#}
+{##}
+{#<ul>#}
+{#    {% for object in object_list %}#}
+{#        <li>{{ object }}</li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+
+{#<div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if page_obj.has_previous %}#}
+{#            <a href="?page=1">&laquo; first</a>#}
+{#            <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if page_obj.has_next %}#}
+{#            <!-- https://stackoverflow.com/questions/52007038/pagination-using-listview-and-a-dynamic-filtered-queryset -->#}
+{#            <a href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">next</a>#}
+{#            <a href="?{{ request.GET.urlencode }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}
 {% endblock content %}

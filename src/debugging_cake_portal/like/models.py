@@ -1,17 +1,19 @@
+import datetime
 from django.db import models
 from cake_user.models.user_model import User
+from notifications.models import Notification
+from django.db.models.signals import post_save
 from posts.models.post_model import Post
-
-LIKE_CHOICES = (
-    ('Like', 'Like'),
-    ('Unlike', 'Unlike'),
-)
 
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    value = models.CharField(choices=LIKE_CHOICES, default='Like',max_length=10)
+    liked = 'Like'
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_like')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_like')
+    value = models.BooleanField(default=False)
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user}-{self.post}-{self.value}"

@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('cake_user.urls', namespace="cake_user")),
     path('', include('user_profile.urls', namespace="user_profile")),
     path('', include('posts.urls')),
+    path('notifications/', include('notifications.urls')),
     path('', include('tag.urls', namespace="tag")),
 ]
 

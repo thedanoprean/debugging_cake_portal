@@ -29,7 +29,7 @@ urlpatterns = [
     path('', include('user_profile.urls', namespace="user_profile")),
     path('', include('posts.urls')),
     path('', include('tag.urls', namespace="tag")),
-    path('chat/', include('chat.urls'))
+    path('', include('chats.urls'))
 ]
 
 if settings.DEBUG:

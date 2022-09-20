@@ -372,7 +372,8 @@ p.comment-content {
 
 .container {
     width: 70vw;
-    margin 50px auto;
+    height: 700px;
+    margin: 50px auto;
     padding: 25px 10px;
     background-color: #fafafa;
     border-radius: 5px;
@@ -380,11 +381,12 @@ p.comment-content {
     -webkit-box-shadow: 1px 4px 12px -7px rgba(0,0,0,0.5);
     box-shadow: 1px 4px 12px -7px rgba(0,0,0,0.5);;
     margin-top: 60px;
+    overflow-y: auto;
 }
 
 .room-container {
     width: 70vw;
-    margin 50px auto;
+    margin: 50px auto;
     padding: 25px 10px;
     background-color: #fafafa;
     border-radius: 5px;
@@ -392,7 +394,6 @@ p.comment-content {
     -webkit-box-shadow: 1px 4px 12px -7px rgba(0,0,0,0.5);
     box-shadow: 1px 4px 12px -7px rgba(0,0,0,0.5);;
     margin-top: 60px;
-    align: center;
 }
 
 .textInput {
@@ -504,9 +505,13 @@ input{
     display: flex;
 }
 
-.chat-create {
+.chats-join {
     font-family: 'Silkscreen', cursive;
-	font-size: 18px;
+	font-size: 32px;
+}
+
+.chatroom-name {
+    font-family: 'Silkscreen', cursive;
 }
 
 .btn-room {
@@ -532,4 +537,15 @@ background-color: #3B3530;
     background-color: #5B514B;
     color: white;
     transition: 0.3s;
+}
+
+.room-title {
+    font-family: 'Silkscreen', cursive;
+	font-size: 18px;
+	text-align: center;
+
+}
+
+.chat-log {
+
 }

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Debugging Cake - Chatrooms</title>
+{% endblock title %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+
+     <div class="room-container">
+        <h3 class="chats-join">Choose a room and debug your code.</h3>
+        <div class="w-full flex flex-wrap items-center">
+        {% for room in rooms %}
+        <div class="w-full lg:w-1/4 px-3 py-3">
+            <div class="p-4 bg-white shadow rounded-xl text-center">
+                <h2 class="mb-5 text-2xl font-semibold chatroom-name">{{ room.name }}</h2>
+                <a href="{% url 'room' room.slug %}" class="btn">Join</a>
+
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+     </div>
+
+
+{% endblock content %}

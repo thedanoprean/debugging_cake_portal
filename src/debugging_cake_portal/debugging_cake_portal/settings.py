@@ -38,6 +38,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'chats',
+    'channels',
     'cake_user',
     'posts',
     'tag',
@@ -52,10 +54,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'taggit',
-    'user_chat',
-    'channels'
-
 ]
 
 MIDDLEWARE = [
@@ -88,6 +86,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'debugging_cake_portal.wsgi.application'
+ASGI_APPLICATION = 'debugging_cake_portal.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+        }
+    }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+        }
+    }
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -149,7 +161,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'cake_user.User'
 AUTHENTICATION_BACKENDS = ['cake_user.backends.EmailBackend']
 
-LOGIN_URL = 'login'
+LOGIN_URL = '/login/'
 
 LOGOUT_URL = 'logout'
 
@@ -161,17 +173,3 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 NUM_OF_CHARS_TO_TRUNCATE = 10
 num_for_prev = 10
-
-ASGI_APPLICATION = 'debugging_cake_portal.asgi.application'
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-        }
-    }
-
-CACHES = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-        }
-    }

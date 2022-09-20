@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -6,6 +8,7 @@ from hitcount.views import HitCountDetailView
 from comment.form import CommentForm
 from comment.models import Comment
 from like.models import Like
+from notifications.models import Notification
 from .models import Post
 
 
@@ -29,7 +32,14 @@ def like_unlike_post(request):
             like.value = False
         post_obj.save()
         like.save()
-        print(like.post.author)
+        # notify = Notification(post=like.post, sender=like.user, user=like.post.author, notification_type=1)
+        # notifications = Notification.objects.filter(user=like.user).order_by('-date')
+        # for noti in notifications:
+        #     if noti.post == notify.post and noti.user == notify.user:
+        #         notify = Notification.objects.get(post=noti.post, sender=noti.user, user=noti.post.author)
+        #         notify.date = datetime.datetime.now()
+        # notify.save()
+
     return redirect('index')
 
 

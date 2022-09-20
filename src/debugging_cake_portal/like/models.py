@@ -1,8 +1,6 @@
 import datetime
 from django.db import models
 from cake_user.models.user_model import User
-from notifications.models import Notification
-from django.db.models.signals import post_save
 from posts.models.post_model import Post
 
 

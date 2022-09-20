@@ -10,7 +10,7 @@
 {% load crispy_forms_tags %}
 
 
-<div id="pivot-table-container2" data-url="{% url 'dashboard:pivot_data' %}"></div>
+<div id="pivot-table-container2"></div>
     {% if request.user.is_superuser %}
     <div class="card">
         <div class="card-header">
@@ -26,7 +26,8 @@
 </div>
 
 <div id="pivot-table-container" data-url="{% url 'dashboard:pivot_data' %}"></div>
-    <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
+<div id="pivot-chart-container"></div>
+  <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>
     function processData(dataset) {
@@ -49,7 +50,7 @@
             report: {
                 dataSource: {
                     type: "json",
-                    data: processData(data)
+                    data: processData(data),
                     mapping: {
                         "number_users": {
                             "caption": "Number of Users",
@@ -59,8 +60,8 @@
                             "caption": "Number of Comments",
                             "type": "number"
                         },
-                        "number_replies": {
-                            "caption": "Number of Replies",
+                        "number_posts": {
+                            "caption": "Number of Posts",
                             "type": "number"
                         },
                     }
@@ -77,7 +78,7 @@
             report: {
                 dataSource: {
                     type: "json",
-                    data: processData(data)
+                    data: processData(data),
                     mapping: {
                         "number_users": {
                             "caption": "Number of Users",
@@ -85,10 +86,10 @@
                         },
                         "number_comments": {
                             "caption": "Number of Comments",
-                            "type": "umber"
+                            "type": "number"
                         },
-                        "number_replies": {
-                            "caption": "Number of Replies",
+                        "number_posts": {
+                            "caption": "Number of Posts",
                             "type": "number"
                         },
                     }
@@ -105,5 +106,5 @@
       }
     });
   </script>
-<div id="pivot-chart-container"></div>
+
 {% endblock content %}

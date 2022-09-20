@@ -13,26 +13,37 @@ def index(request):
     return render(request, 'index.html')
 
 
-def pivot_data():
+def pivot_data(self):
     dataset = Analysis.objects.all()
     data = serializers.serialize('json', dataset)
     return JsonResponse(data, safe=False)
 
 
 def dashboard_with_pivot(request):
-    return render(request, 'dashboard_with_pivot.html', {})
-
-
-class Index(View):
-    def get_context_data(self, request, **kwargs):
-        user_count = User.objects.all().count()
-        comment_count = Comment.objects.all().count()
-        post_count = Post.objects.all().count()
-        context = super().get_context_data(**kwargs)
-        context.update({
+    user_count = User.objects.all().count()
+    comment_count = Comment.objects.all().count()
+    post_count = Post.objects.all().count()
+    return render(request, 'dashboard_with_pivot.html', {
             'user_count': user_count,
             'comment_count': comment_count,
             'post_count': post_count
         })
 
-        return redirect(request, 'dashboard_with_pivot.html', context)
+
+# class Index(View):
+#
+#     # def post(self, request):
+#     #     return redirect(reverse('dashboard_with_pivot.html', request))
+#
+#     def get_context_data(self, request, **kwargs):
+#         user_count = User.objects.all().count()
+#         comment_count = Comment.objects.all().count()
+#         post_count = Post.objects.all().count()
+#         context = super().get_context_data(**kwargs)
+#         context.update({
+#             'user_count': user_count,
+#             'comment_count': comment_count,
+#             'post_count': post_count
+#         })
+#
+#         return render(request, 'dashboard_with_pivot.html', context)

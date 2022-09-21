@@ -22,13 +22,13 @@ class Role(models.Model):
 class User(AbstractUser):
     username = models.CharField(max_length=100, unique=True, blank=False, null=False)
     email = models.EmailField(_('email'), unique=True)
-    roles = models.ManyToManyField(Role)
+    role = models.ForeignKey(Role, null=True, on_delete=models.CASCADE)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
     def __str__(self):
-        return self.username
+        return f"{self.role}: {self.username}"
 
 
 

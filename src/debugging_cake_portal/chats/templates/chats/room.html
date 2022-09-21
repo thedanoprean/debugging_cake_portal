@@ -15,25 +15,43 @@
             <h1>Chatroom {{ room.name }}</h1>
     </div>
 
-    <div class="container">
-        <div id="chat-log">
+    <div class="chat-container" style="background-image: url({% static 'chat.jpg' %});">
+        <div class="chat-log" id="chat-log">
             {% for message in messages.all %}
                 {% if message.user.username == request.user.username %}
+                    <div class="time-align">
                     <div class="message sender">
-                        {{message.user.username}}: {{ message.content }}
+
+                        <div class="sender-username">
+                            <img class="rounded-circle article-img" src="{{ user.profile.image.url }}">
+                            {{message.user.username}}
+                        </div>
+                            {{ message.content }}
+                        </div>
+                        <div class="sender-time">
+                            {{ message.date_added }}
+                        </div>
                     </div>
                 {% else %}
                     <div class="message receiver">
-                        {{message.user.username}}: {{ message.content }}
+                        <div class="receiver-username">
+                            <img class="rounded-circle article-img" src="{{ user.profile.image.url }}">
+                            {{message.user.username}}
+                        </div>
+                        {{ message.content }}
                     </div>
+                <div class="receiver-time">
+                    {{ message.date_added }}
+                </div>
                 {% endif %}
             {% endfor %}
         </div>
-
+    </div>
     <div class="input-container">
             <input class="textInput" id="chat-message-input" type="text" placeholder="Type a message"><br>
-            <button class="send-btn" id="chat-message-submit" type="button">Send</button>
+            <button class="send-btn" id="chat-message-submit" type="submit">Send</button>
     </div>
+
 
 
     {{ room.slug|json_script:"room-name" }}
@@ -105,5 +123,12 @@
             messageInputDom.value = '';
             return False
         };
+
+        function scrollToBottom() {
+            let objDiv = document.getElementById("chat-log");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        };
+
+        scrollToBottom();
     </script>
 {% endblock content %}

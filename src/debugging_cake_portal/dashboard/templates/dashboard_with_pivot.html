@@ -25,8 +25,8 @@
     {% endif %}
 </div>
 
-<div id="pivot-table-container" data-url="{% url 'dashboard:pivot_data' %}"></div>
-<div id="pivot-chart-container"></div>
+<div id="pivot-table-container" data-url="{% url 'dashboard:pivot_data' %} "></div>
+<div id="pivot-chart-container" ></div>
   <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>
@@ -88,10 +88,7 @@
                             "caption": "Number of Comments",
                             "type": "number"
                         },
-                        "number_posts": {
-                            "caption": "Number of Posts",
-                            "type": "number"
-                        },
+
                     }
                 },
                 slice: {},

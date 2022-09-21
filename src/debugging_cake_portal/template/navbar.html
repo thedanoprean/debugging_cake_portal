@@ -18,6 +18,7 @@
              <div class="auth-buttons">
                  {% if request.user.is_authenticated %}
                      {% if request.user.is_superuser %}
+                        <a href="/dashboard"><button class="dashboard-button btn" type="button">Dashboard</button></a>
                         <a href="/admin"><button class="admin-button btn" type="button">Admin</button></a>
                  {% endif %}
 

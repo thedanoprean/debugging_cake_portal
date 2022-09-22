@@ -52,13 +52,7 @@ def like_unlike_post(request):
 
     return redirect('index')
 
-#                      {# lu a ii dau postion relative
-# lu span ii dau clasa in clasa ii dau position aboslute
-# si dupaia ii dai tot in clasa lui span top si left si right pana il fac sa fie sus
-# ii dau border radius 50% sa fie cerc tot la span
-# backgroung color red si color white
-# si ar trb sa mearga
-# marimea lu span#}
+
 class PostListView(ListView):
     model = Post
     template_name = 'index.html'

@@ -5,4 +5,4 @@ from dashboard.models import Analysis
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Analysis
-        fields = ['nr_users', 'nr_comments', 'nr_posts']
+        fields = ['nr_users', 'nr_comments', 'nr_posts', 'nr_roles']

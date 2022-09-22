@@ -14,12 +14,13 @@
     {% if request.user.is_superuser %}
     <div class="card">
         <div class="card-header">
-            User - Comment - Post Count
+            User - Comment - Post - Role Count
         </div>
         <div class="card-body">
             <p class="card-text"> User Count: {{user_count}} <br/></p>
             <p class="card-text"> Comment Count: {{comment_count}} <br/></p>
             <p class="card-text"> Post Count: {{post_count}} <br/></p>
+            <p class="card-text"> Role Count: {{role_count}} <br/></p>
         </div>
     </div>
     {% endif %}
@@ -64,6 +65,10 @@
                             "caption": "Number of Posts",
                             "type": "number"
                         },
+                        "type_roles": {
+                            "caption": "Type of Roles",
+                            "type": "string"
+                        },
                     }
                 },
                 slice: {}
@@ -88,7 +93,10 @@
                             "caption": "Number of Comments",
                             "type": "number"
                         },
-
+                        "type_roles": {
+                            "caption": "Type of Roles",
+                            "type": "string"
+                        },
                     }
                 },
                 slice: {},

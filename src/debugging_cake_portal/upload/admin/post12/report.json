@@ -1,0 +1,57 @@
+{
+    "dataSource": {
+        "type": "json",
+        "data": [
+            {
+                "product_category": "Books",
+                "payment_method": "Credit Card",
+                "shipping_cost": "39",
+                "unit_price": "59.00"
+            },
+            {
+                "product_category": "Movies",
+                "payment_method": "Cash",
+                "shipping_cost": "40",
+                "unit_price": "60.00"
+            }
+        ],
+        "mapping": {
+            "product_category": {
+                "caption": "Product Category",
+                "type": "string"
+            },
+            "payment_method": {
+                "caption": "Payment Method",
+                "type": "string"
+            },
+            "shipping_cost": {
+                "caption": "Shipping Cost",
+                "type": "number"
+            },
+            "unit_price": {
+                "caption": "Unit Price",
+                "type": "number"
+            }
+        }
+    },
+    "slice": {
+        "rows": [
+            {
+                "uniqueName": "product_category"
+            }
+        ],
+        "columns": [
+            {
+                "uniqueName": "[Measures]"
+            }
+        ],
+        "measures": [
+            {
+                "uniqueName": "shipping_cost",
+                "aggregation": "sum"
+            }
+        ]
+    },
+    "version": "2.9.33",
+    "creationDate": "2022-09-19T13:13:12.376Z"
+}

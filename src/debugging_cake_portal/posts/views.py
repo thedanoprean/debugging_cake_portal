@@ -99,7 +99,6 @@ class PostDetailView(HitCountDetailView):
             form.instance.user = request.user
             form.instance.post = post
             form.save()
-
             return redirect(reverse("post-detail", kwargs={'pk': int(post.id)}))
 
     def get_context_data(self, **kwargs):

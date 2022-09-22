@@ -13,6 +13,7 @@ from .models import Post
 
 
 def like_unlike_post(request):
+    ok = True
     user = request.user
     if request.method == 'POST':
         post_id = request.POST.get('post_id')
@@ -32,17 +33,32 @@ def like_unlike_post(request):
             like.value = False
         post_obj.save()
         like.save()
-        # notify = Notification(post=like.post, sender=like.user, user=like.post.author, notification_type=1)
-        # notifications = Notification.objects.filter(user=like.user).order_by('-date')
-        # for noti in notifications:
-        #     if noti.post == notify.post and noti.user == notify.user:
-        #         notify = Notification.objects.get(post=noti.post, sender=noti.user, user=noti.post.author)
-        #         notify.date = datetime.datetime.now()
-        # notify.save()
+        if not like.value:
+            notify = Notification(post=like.post, sender=like.user, user=like.post.author, notification_type=1)
+            notifications = Notification.objects.filter(sender=like.user).order_by('-date')
+            for noti in notifications:
+                if noti.post == notify.post and noti.user == notify.user:
+                    notify = Notification.objects.get(post=noti.post, sender=noti.sender)
+                    notify.date = datetime.datetime.now()
+                    notify.is_seen = False
+            notify.save()
+        # else:
+        #     if like.value:
+        #         notify = Notification.objects.get(post=like.post, sender=like.user, user=like.post.author)
+        #         print(like.post)
+        #         print(like.user)
+        #         print(like.post.author)
+        #         notify.delete()
 
     return redirect('index')
 
-
+#                      {# lu a ii dau postion relative
+# lu span ii dau clasa in clasa ii dau position aboslute
+# si dupaia ii dai tot in clasa lui span top si left si right pana il fac sa fie sus
+# ii dau border radius 50% sa fie cerc tot la span
+# backgroung color red si color white
+# si ar trb sa mearga
+# marimea lu span#}
 class PostListView(ListView):
     model = Post
     template_name = 'index.html'

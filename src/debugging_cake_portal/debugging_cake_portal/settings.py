@@ -72,10 +72,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'debugging_cake_portal.urls'
 
 TEMPLATE_DIR = Path(BASE_DIR) / 'template'
+TEMPLATE_TAGS_DIR = Path(BASE_DIR) / 'templatetags'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [TEMPLATE_DIR, TEMPLATE_TAGS_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

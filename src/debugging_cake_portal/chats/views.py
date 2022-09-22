@@ -4,7 +4,7 @@ from .models import ChatRoom, Message
 
 
 @login_required()
-def chatrooms(request):
+def chatrooms_view(request):
     rooms = ChatRoom.objects.all()
     return render(request, 'chats/chatrooms.html', {
         "rooms": rooms
@@ -12,8 +12,8 @@ def chatrooms(request):
 
 
 @login_required
-def room(request, slug):
+def room_view(request, slug):
     room = ChatRoom.objects.get(slug=slug)
-    messages = Message.objects.filter(room=room)[0:25]
+    messages = Message.objects.filter(room=room)
 
     return render(request, 'chats/room.html', {'room': room, 'messages': messages})

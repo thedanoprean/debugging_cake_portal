@@ -3,5 +3,5 @@ from ..forms.login_form import LoginForm
 
 
 class LoginView(auth_views.LoginView):
-    login_form = LoginForm
+    form = LoginForm
     template_name = 'cake_user/login.html'

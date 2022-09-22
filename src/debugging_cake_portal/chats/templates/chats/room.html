@@ -19,9 +19,7 @@
         <div class="chat-log" id="chat-log">
             {% for message in messages.all %}
                 {% if message.user.username == request.user.username %}
-                    <div class="time-align">
                     <div class="message sender">
-
                         <div class="sender-username">
                             <img class="rounded-circle article-img" src="{{ user.profile.image.url }}">
                             {{message.user.username}}
@@ -31,7 +29,6 @@
                         <div class="sender-time">
                             {{ message.date_added }}
                         </div>
-                    </div>
                 {% else %}
                     <div class="message receiver">
                         <div class="receiver-username">
@@ -53,13 +50,15 @@
     </div>
 
 
-
+    {{ message.date_added|json_script:"date-added" }}
+    {{ user.profile.image.url|json_script:"profile-picture" }}
     {{ room.slug|json_script:"room-name" }}
     {{ request.user.username|json_script:"username" }}
 
     <script>
-
         const chatLog = document.querySelector('#chat-log');
+        const dateAdded = JSON.parse(document.getElementById('date-added').textContent);
+        const profilePicture = JSON.parse(document.getElementById('profile-picture').textContent);
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const userName = JSON.parse(document.getElementById('username').textContent);
 
@@ -96,7 +95,8 @@
 
             if (document.querySelector('#roomMessage')) {
                 document.querySelector('#roomMessage').remove()
-            }
+                }
+
             scrollToBottom();
         };
 

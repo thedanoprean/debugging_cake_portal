@@ -16,16 +16,3 @@ def show_notifications(request):
     }
 
     return HttpResponse(template.render(context, request))
-
-
-# def count_notifications(request):
-#     count_notifications = 0
-#     if request.user.is_authenticated:
-#         count_notifications = Notification.objects.all().count()
-#         print(count_notifications)
-#     context = {
-#         'count_notifications': count_notifications
-#     }
-#     template = loader.get_template('navbar.html')
-#     # return HttpResponse(template.render(context, request))
-#     return {'count_notifications': count_notifications}

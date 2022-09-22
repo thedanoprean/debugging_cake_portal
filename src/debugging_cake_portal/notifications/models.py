@@ -19,7 +19,3 @@ class Notification(models.Model):
     text_preview = models.CharField(max_length=90, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     is_seen = models.BooleanField(default=False)
-
-    @property
-    def num_not(self):
-        self.filter(is_seen=False).count()

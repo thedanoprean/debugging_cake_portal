@@ -10,8 +10,5 @@ class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_like')
     value = models.BooleanField(default=False)
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-
     def __str__(self):
         return f"{self.user}-{self.post}-{self.value}"

@@ -4,7 +4,7 @@ Steps to follow for running the project locally
 
 First, clone the repository to your local machine:
 
-    git clone https://git.jouve-hdi.com/luminess-dev-experiments/debugging_cake_portal.git
+    git clone https://git.jouve-hdi.com/CVAR/debugging_cake_portal.git
 
 
 Install the requirements:
@@ -14,7 +14,7 @@ Install the requirements:
 
 Create the database:
 
-    python manage.py makemigrations cake_user tag posts user_profile comment && python manage.py migrate
+    python manage.py makemigrations cake_user tag posts user_profile comment like notifications && python manage.py migrate
 
 
 Finally, run the development server:

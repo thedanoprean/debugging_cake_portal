@@ -25,7 +25,7 @@ class TestAnalysis:
             pytest.param(10, 10, 10, 10, id="Test number of roles"),
         ]
     )
-    def test_successful_validation(self, nr_users, nr_comments, nr_posts, nr_roles):
+    def test_successful_validation_OK(self, nr_users, nr_comments, nr_posts, nr_roles):
         """
         Test that validates Analysis objects with correct parameters and values
         """
@@ -52,7 +52,7 @@ class TestAnalysis:
             pytest.param(10, 10, 10, 9999999999, id="Test maximum number of roles"),
         ]
     )
-    def test_unsuccessful_validation(self, nr_users, nr_comments, nr_posts, nr_roles):
+    def test_unsuccessful_validation_KO(self, nr_users, nr_comments, nr_posts, nr_roles):
         """
         Test that attempts to validate an Analysis object with parameters of correct types, but values out of range
         """
@@ -75,7 +75,7 @@ class TestAnalysis:
             pytest.param(10, 10, 10, {"10": 10}, id="Test number of roles with dict"),
         ]
     )
-    def test_type_error_validation(self, nr_users, nr_comments, nr_posts, nr_roles):
+    def test_type_error_validation_KO(self, nr_users, nr_comments, nr_posts, nr_roles):
         """
         Test that attempts to validate Analysis objects with parameters of the wrong type
         """

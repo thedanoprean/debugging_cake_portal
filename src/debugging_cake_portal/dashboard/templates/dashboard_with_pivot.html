@@ -11,7 +11,7 @@
 
 
 <div id="pivot-table-container2"></div>
-    {% if request.user.is_superuser %}
+<!--    {% if request.user.is_superuser %}-->
     <div class="card">
         <div class="card-header">
             User - Comment - Post - Role Count
@@ -23,7 +23,7 @@
             <p class="card-text"> Role Count: {{role_count}} <br/></p>
         </div>
     </div>
-    {% endif %}
+<!--    {% endif %}-->
 </div>
 
 <div id="pivot-table-container" data-url="{% url 'dashboard:pivot_data' %} "></div>

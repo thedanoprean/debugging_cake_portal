@@ -1,13 +1,11 @@
 import django_filters
 
-from .models import *
-from django_filters import DateFilter
+from .models import Post
 
 
 class PostFilter(django_filters.FilterSet):
-    start_date = DateFilter(field_name="date_created", lookup_expr='gte')
-    end_date = DateFilter(field_name="date_created", lookup_expr='lte')
+    title = django_filters.CharFilter(field_name='title', lookup_expr='icontains')
 
     class Meta:
         model = Post
-        fields = ('title', 'author', 'post_tag',)
+        fields = ['title', 'author', 'post_tag', ]

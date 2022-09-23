@@ -45,12 +45,15 @@ INSTALLED_APPS = [
     'user_profile',
     'crispy_forms',
 
+
     # django stuff
+    'posts.apps.PostsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'django_filters',
     'rest_framework',
@@ -73,10 +76,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'debugging_cake_portal.urls'
 
 TEMPLATE_DIR = Path(BASE_DIR) / 'template'
+TEMPLATE_TAGS_DIR = Path(BASE_DIR) / 'templatetags'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [TEMPLATE_DIR, TEMPLATE_TAGS_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -163,3 +167,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 NUM_OF_CHARS_TO_TRUNCATE = 10
 num_for_prev = 10
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}

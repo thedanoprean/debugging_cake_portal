@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -10,7 +11,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from comment.form import CommentForm
 from comment.models import Comment
-from .models import Post
+from models.post_model import Post
 from .serializers import PostSerializer
 from .filters import PostFilter
 
@@ -32,20 +33,45 @@ class FilteredListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        return self.filterset.qs.distinct()
+        return self.filterset.qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filterset'] = self.filterset
+        paginated_filtered_posts = Paginator(self.filterset.qs, 2)
+        page_number = self.request.GET.get('page')
+        post_page_obj = paginated_filtered_posts.get_page(page_number)
+        context.update({
+            'filterset': self.filterset,
+            'post_page_obj': post_page_obj
+        })
         return context
 
+
+# API REQUEST FACTORY
 
 # Usage
 class PostListView(FilteredListView):
     model = Post
     filterset_class = PostFilter
-    paginate_by = 3
+    paginate_by = 2
     template_name = 'index.html'
+    ordering = ['-date_created']
+
+
+
+# def show_all_posts_page(request):
+#     context = {}
+#
+#     filtered_posts = PostFilter(
+#         request.GET,
+#         queryset=Post.objects.all()
+#     )
+#
+#     # context['filtered_posts'] = filtered_posts.qs
+#     context.update({
+#         'filtered_posts': filtered_posts
+#     })
+#     return render(request, 'index.html', context=context)
 
 
 # def list_posts(request):
@@ -128,13 +154,6 @@ def homepage(request):
 
 def about_page(request):
     return render(request, 'about.html')
-
-
-class PostListView(ListView):
-    model = Post
-    template_name = 'index.html'
-    context_object_name = 'posts'
-    ordering = ['-date_created']
 
 
 class PostDetailView(HitCountDetailView):

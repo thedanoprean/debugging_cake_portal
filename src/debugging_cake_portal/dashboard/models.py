@@ -15,12 +15,6 @@ class Analysis(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
 
-    # these fields must be in Post module
-    # nr_likes = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL)
-    # nr_views = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL)
-
-    # class Meta:
-    #     analysis = ('-created successfully',)
 
     def __str__(self):
         return 'Analysis from: {}, {}, {}, {}'.format(self.nr_users, self.nr_comments, self.nr_posts, self.nr_roles)

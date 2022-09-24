@@ -6,6 +6,7 @@ from dashboard.serializer.analysis_serializer import OrderSerializer
 from posts.models.post_model import Post
 from cake_user.models.user_model import User, Role
 from django.core import serializers
+import json
 
 
 def index(request):
@@ -13,9 +14,18 @@ def index(request):
 
 
 def pivot_data(self):
-    dataset = Analysis.objects.all()
-    data = serializers.serialize('json', dataset)
-    return JsonResponse(data, safe=False)
+    dataset = [
+        ['Fields', 'users', 'posts', 'comments'],
+        ['moderator', User.objects.filter(roles__id=3).count(), Post.objects.filter(author__roles=3).count(),
+         Comment.objects.filter(user__roles=3).count()],
+        ['compo', User.objects.filter(roles__id=2).count(), Post.objects.filter(author__roles=2).count(),
+         Comment.objects.filter(user__roles=2).count()],
+        ['developer', User.objects.filter(roles__id=1).count(), Post.objects.filter(author__roles=1).count(),
+         Comment.objects.filter(user__roles=1).count()]
+    ]
+
+    print(dataset)
+    return JsonResponse(json.dumps(dataset), safe=False)
 
 
 def dashboard_with_pivot(request):

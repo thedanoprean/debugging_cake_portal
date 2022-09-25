@@ -1,4 +1,3 @@
-# from django.test import TestCase
 # from channels.testing import ChannelsLiveServerTestCase
 # from selenium import webdriver
 # from selenium.webdriver.common.action_chains import ActionChains
@@ -94,4 +93,3 @@
 #     @property
 #     def _chat_log_value(self):
 #         return self.driver.find_element(by=By.CSS_SELECTOR, value="#chat-log").get_property('value')
-#

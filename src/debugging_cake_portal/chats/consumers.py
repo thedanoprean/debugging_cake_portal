@@ -1,8 +1,10 @@
+import os
 import json
 from cake_user.models.user_model import User
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
-from .models import ChatRoom, Message
+from chats.models.chatroom_model import ChatRoom
+from chats.models.message_model import Message
 
 
 class ChatRoomConsumer(AsyncWebsocketConsumer):
@@ -61,3 +63,14 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         room = ChatRoom.objects.get(slug=room)
 
         Message.objects.create(user=user, room=room, content=message)
+
+        latest_message = Message.objects.latest('id')
+        save_path = r'/data/debugging_cake/input/'
+        relative_path = r'%s/%s/messages/' % (user.username, room.name)
+        full_path = os.path.join(save_path, relative_path)
+        file_name = os.path.join(full_path, 'user_messages.txt')
+        os.makedirs(full_path)
+
+        with open(file_name, 'w+') as file:
+            file.write(latest_message.content)
+            file.close()

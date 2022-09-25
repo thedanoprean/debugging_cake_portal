@@ -1,6 +1,4 @@
 import os
-import uuid
-
 from django.db import models
 from django.dispatch import receiver
 from django.utils import timezone
@@ -8,10 +6,11 @@ from cake_user.models.user_model import User
 from debugging_cake_portal.settings import num_for_prev
 from tag.models.tag_model import Tag
 from django.urls import reverse
-from django.shortcuts import get_object_or_404, redirect, render
+# from django.core.files.storage import FileSystemStorage
 
 
 def get_upload_to(instance, filename):
+    # path = FileSystemStorage(location='/data/debugging_cake/input')
     return 'upload/%s/post%s/%s' % (instance.author.username, instance.id, filename)
 
 
@@ -23,16 +22,17 @@ class Post(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     post_tag = models.ForeignKey(Tag, null=True, on_delete=models.SET_NULL)
     file = models.FileField(upload_to=get_upload_to, blank=True, null=True)
-    # filename = models.CharField(max_length=100, default=file.name, blank=True)
 
     def __str__(self):
         return f"{self.author}'s post in {self.post_tag}"
+
     @property
     def results(self):
         file = self.file.path
         data_file = open(file, 'r')
         data = data_file.read(num_for_prev)
         return data
+
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 

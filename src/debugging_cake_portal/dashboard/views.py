@@ -6,6 +6,7 @@ from dashboard.serializer.analysis_serializer import OrderSerializer
 from posts.models.post_model import Post
 from cake_user.models.user_model import User, Role
 from django.core import serializers
+from django.http import HttpResponseForbidden
 import json
 
 
@@ -13,7 +14,11 @@ def index(request):
     return render(request, 'index.html')
 
 
-def pivot_data(self):
+def pivot_data(request):
+
+    if not hasattr(request, 'user') or not request.user.is_superuser:
+        return HttpResponseForbidden()
+
     dataset = [
         ['Fields', 'users', 'posts', 'comments'],
         ['moderator', User.objects.filter(roles__id=3).count(), Post.objects.filter(author__roles=3).count(),
@@ -25,10 +30,14 @@ def pivot_data(self):
     ]
 
     print(dataset)
-    return JsonResponse(json.dumps(dataset), safe=False)
+    return JsonResponse(dataset, safe=False)
 
 
 def dashboard_with_pivot(request):
+
+    if not hasattr(request, 'user') or not request.user.is_superuser:
+        return HttpResponseForbidden()
+
     user_count = User.objects.all().count()
     comment_count = Comment.objects.all().count()
     post_count = Post.objects.all().count()

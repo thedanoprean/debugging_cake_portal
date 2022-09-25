@@ -9,9 +9,9 @@
 <!--{% include 'navbar.html'%}-->
 {% load crispy_forms_tags %}
 
-
-	<div id="pivot-table-container2"></div>
 <!--    {% if request.user.is_superuser %}-->
+	<div id="pivot-table-container2"></div>
+
     <div class="card">
         <div class="card-header">
             User - Comment - Post - Role Count
@@ -23,7 +23,7 @@
             <p class="card-text"> Role Count: {{role_count}} <br/></p>
         </div>
     </div>
-<!--    {% endif %}-->
+
 </div>
 
 <div id="pivot-table-container" data-url="{% url 'dashboard:pivot_data' %} "></div>
@@ -31,11 +31,6 @@
   <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>
-    function processData(dataset) {
-      var result = []
-      dataset = JSON.parse(dataset);
-      return dataset;
-    }
 
     $.ajax({
       url: $("#pivot-table-container").attr("data-url"),
@@ -50,7 +45,7 @@
             report: {
                 dataSource: {
                     type: "json",
-                    data: processData(data)
+                    data: data
 
                 },
                 slice: {}
@@ -65,7 +60,7 @@
             report: {
                 dataSource: {
                     type: "json",
-                    data: processData(data)
+                    data: data
                 },
                 slice: {},
                 "options": {
@@ -79,5 +74,5 @@
       }
     });
   </script>
-
+<!--    {% endif %}-->
 {% endblock content %}

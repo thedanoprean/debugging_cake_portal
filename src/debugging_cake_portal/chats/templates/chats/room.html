@@ -8,15 +8,17 @@
 {% block content %}
     {% include 'navbar.html' %}
     <div class="chat-room">
-        <a href="/chatrooms/"><button class="leave-room-btn">Return to Lobby</button></a>
+        <a href="{% url 'chatrooms' %}"><button class="leave-room-btn"><ion-icon class="leave-icon" size='large' name="play-back-outline">
+        </ion-icon></button></a>
     </div>
 
     <div class="room-title">
             <h1>Chatroom {{ room.name }}</h1>
     </div>
 
+
     <div class="chat-container" style="background-image: url({% static 'chat.jpg' %});">
-        <div class="chat-log" id="chat-log">
+        <div id="chat-log" class="chat-log">
             {% for message in messages.all %}
                 {% if message.user.username == request.user.username %}
                     <div class="message sender">
@@ -46,19 +48,15 @@
     </div>
     <div class="input-container">
             <input class="textInput" id="chat-message-input" type="text" placeholder="Type a message"><br>
-            <button class="send-btn" id="chat-message-submit" type="submit">Send</button>
+            <button class="send-btn" id="chat-message-submit" type="submit"><ion-icon size="large" name="send"></ion-icon></button>
     </div>
 
 
-    {{ message.date_added|json_script:"date-added" }}
-    {{ user.profile.image.url|json_script:"profile-picture" }}
     {{ room.slug|json_script:"room-name" }}
     {{ request.user.username|json_script:"username" }}
 
     <script>
         const chatLog = document.querySelector('#chat-log');
-        const dateAdded = JSON.parse(document.getElementById('date-added').textContent);
-        const profilePicture = JSON.parse(document.getElementById('profile-picture').textContent);
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const userName = JSON.parse(document.getElementById('username').textContent);
 
@@ -77,6 +75,10 @@
             roomMessage.className = 'roomMessage'
             chatLog.appendChild(roomMessage)
         }
+
+        function updateDiv() {
+            $("#chat-log").load(" #chat-log > *");
+        };
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
@@ -97,6 +99,7 @@
                 document.querySelector('#roomMessage').remove()
                 }
 
+            updateDiv();
             scrollToBottom();
         };
 

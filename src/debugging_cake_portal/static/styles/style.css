@@ -446,19 +446,18 @@ input{
     width: 50%;
 }
 
+ion-icon {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
 .send-btn {
     background-color: #3B3530;
     color: #d9fad9;
-    font-weight: bold;
-    border-radius: 40px;
+    border-radius: 50%;
     padding: 10px;
-    text-align: center;
-    width:60px;
-    font-size: 14px;
+    width: 65px;
     transition: 0.3s;
-    box-shadow: 0px;
-    outline: 0;
-    box-shadow: none;
     border: 0px;
     margin-left: 10px;
 }
@@ -524,21 +523,23 @@ input{
     text-align: left;
 }
 
+.leave-icon {
+    margin-right: 8px;
+    margin-bottom: 6px;
+}
+
 .leave-room-btn {
     background-color: #3B3530;
     color: #d9fad9;
-    border-radius: 22px;
+    border-radius: 50%;
     padding: 10px;
-    text-align: center;
-    display: inline;
-    font-size: 16px;
-    font-weight: bold;
+    align-items: center;
+    display: flex;
+    font-size: 18px;
     transition: 0.3s;
-    width: 200px;
     margin-top: 40px;
     margin-left: 40px;
     position: fixed;
-    box-shadpw: 0px;
     outline: none;
     border: 0px;
 }

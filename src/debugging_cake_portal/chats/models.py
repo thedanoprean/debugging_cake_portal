@@ -10,7 +10,7 @@ class ChatRoom(models.Model):
         return f"Chatroom {self.name}"
 
 
-class Message(models.Model):
+class Message( models.Model):
     room = models.ForeignKey(ChatRoom, related_name='messages', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='messages', on_delete=models.CASCADE)
     content = models.TextField()

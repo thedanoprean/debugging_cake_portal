@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'user_profile',
     'crispy_forms',
 
-
     # django stuff
     'posts.apps.PostsConfig',
     'django.contrib.admin',
@@ -53,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.sites',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'django_filters',
     'rest_framework',
@@ -102,6 +101,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'TEST': {
+            'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3')
+        }
     }
 }
 

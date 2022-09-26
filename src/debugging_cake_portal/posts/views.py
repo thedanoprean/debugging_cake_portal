@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from comment.form import CommentForm
 from comment.models import Comment
-from models.post_model import Post
+from posts.models.post_model import Post
 from .serializers import PostSerializer
 from .filters import PostFilter
 

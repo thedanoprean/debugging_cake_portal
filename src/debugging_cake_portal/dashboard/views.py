@@ -29,7 +29,6 @@ def pivot_data(request):
          Comment.objects.filter(user__roles=1).count()]
     ]
 
-    print(dataset)
     return JsonResponse(dataset, safe=False)
 
 

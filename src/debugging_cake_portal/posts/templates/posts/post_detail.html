@@ -3,19 +3,19 @@
 {% include 'navbar.html'%}
 {% load crispy_forms_tags %}
 
-  <div class="container-fluid my-5">
-    {% if request.user.is_superuser %}
-    <div class="card">
-        <div class="card-header">
-            User - Comment - Post Count
-        </div>
-        <div class="card-body">
-            <p class="card-text"> User Count: {{user_count}} <br/></p>
-            <p class="card-text"> Comment Count: {{comment_count}} <br/></p>
-            <p class="card-text"> Post Count: {{post_count}} <br/></p>
-        </div>
-    </div>
-    {% endif %}
+<!--  <div class="container-fluid my-5">-->
+<!--    {% if request.user.is_superuser %}-->
+<!--    <div class="card">-->
+<!--        <div class="card-header">-->
+<!--            User - Comment - Post Count-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--            <p class="card-text"> User Count: {{user_count}} <br/></p>-->
+<!--            <p class="card-text"> Comment Count: {{comment_count}} <br/></p>-->
+<!--            <p class="card-text"> Post Count: {{post_count}} <br/></p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    {% endif %}-->
 
     <article class="media content-section">
 

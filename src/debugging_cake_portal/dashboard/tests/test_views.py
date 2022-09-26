@@ -1,7 +1,6 @@
 # Project settings
 import os
 
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "debugging_cake_portal.settings")
 import django
 
@@ -28,13 +27,11 @@ class TestDashboardViews:
         view = dashboard_with_pivot(request)
         assert view.status_code == status.HTTP_200_OK
 
-
     def test_load_anonymous_KO(self):
         factory = APIRequestFactory()
         request = factory.get(path="dashboard/")
         view = dashboard_with_pivot(request)
         assert view.status_code == status.HTTP_403_FORBIDDEN
-
 
     def test_API_admin_OK(self):
         factory = APIRequestFactory()
@@ -48,7 +45,6 @@ class TestDashboardViews:
         request = factory.get(path="dashboard/")
         view = pivot_data(request)
         assert view.status_code == status.HTTP_403_FORBIDDEN
-
 
     def test_check_data_OK(self):
         factory = APIRequestFactory()
@@ -74,4 +70,3 @@ class TestDashboardViews:
             assert len(expected) == len(recieved)
             for (expected_value, recieved_value) in zip(expected, recieved):
                 assert expected_value == recieved_value
-

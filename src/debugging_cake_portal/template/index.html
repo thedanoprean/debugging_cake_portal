@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
+
 
 {% block title %}
     <title>Debugging the Cake</title>
@@ -47,7 +49,7 @@
                                     <div class="like-count{{post.id}}"> </div>
                                 </div>
                                 <div class="column">
-                                    {{post.num_likes}} likes
+                                    {{post.num_likes}} {% trans 'likes' %}
                                 </div>
                             </div>
 

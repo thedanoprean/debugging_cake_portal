@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 {% include 'navbar.html'%}
 {% load crispy_forms_tags %}
@@ -24,7 +25,7 @@
     <div class="content">
         <strong>{{ notification.sender.profile.user.username }} </strong>
         <br>
-        <p>Liked your post</p>
+        <p><a class="article-title" href="{% url 'post-detail' notification.post.id %}">{% trans 'Liked your post' %}</a></p>
         <strong><small>{{ notification.date }}</small></strong>
     </div>
   </div>

@@ -1,6 +1,7 @@
 from django import urls
 import pytest
-from chats.views import chatrooms_view, room_view
+from chats.views.chatrooms_view import chatrooms_view
+from chats.views.room_view import room_view
 
 
 @pytest.mark.parametrize('param', [chatrooms_view])

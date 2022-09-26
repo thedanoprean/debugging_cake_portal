@@ -1,6 +1,5 @@
 import pytest
-from chats.models import ChatRoom, Message
-from cake_user.models.user_model import User, Role
+from chats.models.chatroom_model import ChatRoom
 
 
 class TestChatRoom:

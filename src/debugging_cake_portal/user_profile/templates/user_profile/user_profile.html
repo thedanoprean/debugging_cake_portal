@@ -32,7 +32,7 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend> Profile Info </legend>
+                <legend class="p-info"> Profile Info </legend>
                 {{ user_form|crispy }}
                 {{ profile_form|crispy }}
             </fieldset>

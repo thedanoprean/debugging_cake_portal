@@ -14,7 +14,7 @@
 
         {% for room in rooms %}
         <div class="w-full lg:w-1/4 px-3 py-3">
-            <div class="p-4 bg-white shadow rounded-xl text-center">
+            <div class="p-4 bg-white shadow text-center chat-cards">
                 <h2 class="mb-5 text-2xl font-semibold chatroom-name">{{ room.name }}</h2>
                 <a href="{% url 'room' room.slug %}"><button class="join-btn">Join</button></a>
 

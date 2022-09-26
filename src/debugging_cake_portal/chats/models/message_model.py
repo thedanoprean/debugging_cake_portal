@@ -14,8 +14,3 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.room} - {self.user}'s message: {self.content}"
-
-
-
-
-

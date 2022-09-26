@@ -1,3 +1,5 @@
+
+
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
@@ -9,98 +11,40 @@
 
 {% block content %}
     {% include 'navbar.html'%}
-
-    {% for post in posts %}
+        {% for post in posts %}
         <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-          <div class="media-body">
+            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+            <div class="media-body">
+
             <div class="article-metadata">
                 <div class="aliniere" style="display:flex;">
                 <a class="mr-2" href="#">{{ post.author }}</a>
 
-              <a class="text-muted">{{ post.date_created|date:"F d, Y" }}</a>
+                <a class="text-muted">{{ post.date_created|date:"F d, Y" }}</a>
                 <form action="{% url 'like-post-view' %}" method="POST" class='like-form' id='{{post.id}}'>
-                  {% csrf_token %}
-                  <input type="hidden" name="post_id" value={{post.id}}>
-                  <button type="submit" class="btn btn2 edit ui button like-btn{{post.id}}">
-
-                      {% if user not in post.liked.all %}
-                        <i class="fa fa-heart" style="font-size:24px;color:lightgrey;" class="iconita"></i>
-                      {% else %}
-                        <i class="fa fa-heart" style="font-size:24px;color:indianred;"></i>
-                      {% endif %}
-                  </button>
-
+                    {% csrf_token %}
+                        <input type="hidden" name="post_id" value={{post.id}}>
+                            <button type="submit" class="btn btn2 edit ui button like-btn{{post.id}}">
+                                {% if user not in post.liked.all %}
+                                    <i class="fa fa-heart" style="font-size:24px;color:lightgrey;"></i>
+                                {% else %}
+                                    <i class="fa fa-heart" style="font-size:24px;color:indianred;"></i>
+                                {% endif %}
+                            </button>
                 </form>
                 </div>
             </div>
             <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.description|truncatechars:10}}</p>
-                    <div class="ui grid">
-                        <div class="column">
-                            <div class="like-count{{post.id}}"> </div>
-                        </div>
-                        <div class="column">
-                            {{post.num_likes}} {% trans 'likes' %}
-                        </div>
+                <div class="ui grid">
+                    <div class="column">
+                        <div class="like-count{{post.id}}"> </div>
+                    </div>
+                    <div class="column">
+                        {{post.num_likes}} {% trans 'likes' %}
                     </div>
                 </div>
+          </div>
         </article>
-    {% endfor %}
-
-    {% block scripts %}
-    <script>
-        $( document ).ready(function() {
-            let display = false
-            $(".cmt_btn").click(function () {
-                if (display===false) {
-                    $(this).next(".comment-box").show("slow");
-                    display=true
-                } else {
-                    $(this).next(".comment-box").hide("slow");
-                    display=false
-                }
-            });
-
-            $('.like-form').submit(function(e){
-                e.preventDefault()
-
-                const post_id = $(this).attr('id')
-
-                const likeText = $(`.like-btn${post_id}`).text()
-                const trim = $.trim(likeText)
-
-                const url = $(this).attr('action')
-
-                let res;
-                const likes = $(`.like-count${post_id}`).text()
-                const trimCount = parseInt(likes)
-
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: {
-                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                        'post_id':post_id,
-                    },
-                    success: function(response) {
-                        if(trim === 'Unlike') {
-                            $(`.like-btn${post_id}`).text('Like')
-                            res = trimCount - 1
-                        } else {
-                            $(`.like-btn${post_id}`).text('Unlike')
-                            res = trimCount + 1
-                        }
-
-                        $(`.like-count${post_id}`).text(res)
-                    },
-                    error: function(response) {
-                        console.log('error', response)
-                    }
-                })
-
-            })
-        });
-    </script>
-{% endblock scripts %}
+        {% endfor %}
 {% endblock content %}

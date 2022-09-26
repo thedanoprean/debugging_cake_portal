@@ -21,15 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/src/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -44,8 +40,6 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'chats',
-    'channels',
     'cake_user',
     'posts',
     'tag',
@@ -60,8 +54,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'channels',
+    'taggit',
     'like',
     'notifications',
+    'tests',
+
 ]
 
 MIDDLEWARE = [
@@ -97,18 +95,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'debugging_cake_portal.wsgi.application'
 ASGI_APPLICATION = 'debugging_cake_portal.asgi.application'
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-        }
-    }
-
-CACHES = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-        }
-    }
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -118,9 +104,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
         'TEST': {
             'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3')
-        }
         },
     }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -139,6 +125,17 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Internationalization
+# https://docs.djangoproject.com/en/4.1/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -161,11 +158,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'cake_user.User'
 AUTHENTICATION_BACKENDS = ['cake_user.backends.EmailBackend']
 
-LOGIN_URL = '/login/'
+LOGIN_URL = 'login'
 
-LOGOUT_URL = '/logout/'
+LOGOUT_URL = 'logout'
 
-LOGIN_REDIRECT_URL = '/chatrooms/'
+LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
 

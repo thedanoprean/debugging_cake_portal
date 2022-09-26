@@ -1,81 +1,56 @@
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
-from rest_framework import viewsets, status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from comment.form import CommentForm
 from comment.models import Comment
+from like.models import Like
+from notifications.models import Notification
 from .models import Post
-from .serializers import PostSerializer
 
 
-@api_view(['POST'])
-def adaugare_post(request):
-    print(request.data)
-    serializer = PostSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return JsonResponse("Done", status=201, safe=False)
-    else:
-        return Response(serializer.errors, status=400)
+def like_unlike_post(request):
+    ok = True
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = Post.objects.get(id=post_id)
+        like, created = Like.objects.get_or_create(user=user, post_id=post_id)
+        if user in post_obj.liked.all():
+            post_obj.liked.remove(user)
+        else:
+            post_obj.liked.add(user)
 
+        if not created:
+            if not like.value:
+                like.value = True
+            else:
+                like.value = False
+        else:
+            like.value = False
+        post_obj.save()
+        like.save()
+        if not like.value:
+            notify = Notification(post=like.post, sender=like.user, user=like.post.author, notification_type=1)
+            notifications = Notification.objects.filter(sender=like.user).order_by('-date')
+            for noti in notifications:
+                if noti.post == notify.post and noti.user == notify.user:
+                    notify = Notification.objects.get(post=noti.post, sender=noti.sender)
+                    notify.date = datetime.datetime.now()
+                    notify.is_seen = False
+            notify.save()
+        # else:
+        #     if like.value:
+        #         notify = Notification.objects.get(post=like.post, sender=like.user, user=like.post.author)
+        #         print(like.post)
+        #         print(like.user)
+        #         print(like.post.author)
+        #         notify.delete()
 
-class PostViewSet(viewsets.ViewSet):
-    queryset = Post.objects
-    serializer = PostSerializer
-
-    def list(self, request):
-        posts = self.queryset.all()
-        serializer = self.serializer(posts, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def retrieve(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
-        serializer = self.serializer(post)
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def update(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
-        serializer = self.serializer(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"error": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def partial_update(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
-        serializer = self.serializer(post, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"error": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
-        post.delete()
-        return Response({'success': 'Team deleted successfully'}, status.HTTP_200_OK)
-
-
-def homepage(request):
-    return render(request, 'index.html')
-
-
-def list_posts(request):
-    posts = Post.objects.all()
-    data = {
-        'posts': posts
-    }
-    return render(request, 'index.html', data)
-
-    # TODO: implement about.html
-
-
-def about_page(request):
-    return render(request, 'about.html')
+    return redirect('index')
 
 
 class PostListView(ListView):

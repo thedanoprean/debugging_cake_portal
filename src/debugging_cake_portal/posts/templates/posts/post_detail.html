@@ -1,5 +1,7 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
+    {% load i18n %}
 {% include 'navbar.html'%}
 {% load crispy_forms_tags %}
 
@@ -28,9 +30,8 @@
       <h2 class="article-title">{{ post.title }}</h2>
       <p class="article-content">{{ post.description }}</p>
       <p></p>
-      <p>File preview</p>
+      <p>{% trans 'File preview' %}</p>
         <span>{{ post.results }}...</span>
-
       </div>
     </article>
   </div>
@@ -100,7 +101,7 @@
                                 {% endfor %}
                             </div>
 
-                    {% else %} <h2>You need to Login in order to comment</h2>
+                    {% else %} <h2>{% trans 'You need to Login in order to comment' %}</h2>
                     {% endif %}
 
                             <!--display the form-->

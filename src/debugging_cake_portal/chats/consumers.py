@@ -1,4 +1,5 @@
 import os
+from os.path import exists
 import json
 from cake_user.models.user_model import User
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -66,11 +67,17 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
 
         latest_message = Message.objects.latest('id')
         save_path = r'/data/debugging_cake/input/'
-        relative_path = r'%s/%s/messages/' % (user.username, room.name)
+        relative_path = r'%s/%s/messages' % (user.username, room.name)
         full_path = os.path.join(save_path, relative_path)
-        file_name = os.path.join(full_path, 'user_messages.txt')
-        os.makedirs(full_path)
 
-        with open(file_name, 'w+') as file:
-            file.write(latest_message.content)
-            file.close()
+        if exists(full_path):
+            file_name = os.path.join(full_path, 'user_messages.txt')
+            with open(file_name, 'a+') as file:
+                file.write(latest_message.content)
+                file.close()
+        else:
+            os.makedirs(full_path)
+            file_name = os.path.join(full_path, 'user_messages.txt')
+            with open(file_name, 'a+') as file:
+                file.write(latest_message.content)
+                file.close()

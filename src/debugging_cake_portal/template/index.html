@@ -1,21 +1,14 @@
-
-
 {% extends 'base.html' %}
 {% load static %}
-<<<<<<< HEAD
 {% load i18n %}
-
-
-=======
 {% load crispy_forms_tags %}
->>>>>>> feature/search2
+
 {% block title %}
     <title>Debugging the Cake</title>
 {% endblock %}
 
 {% block content %}
     {% include 'navbar.html'%}
-<<<<<<< HEAD
         {% for post in posts %}
         <article class="media content-section">
             <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
@@ -52,9 +45,6 @@
           </div>
         </article>
         {% endfor %}
-{% endblock content %}
-=======
-
     {% load posts_extras %}
 
 
@@ -100,4 +90,3 @@
   </ul>
 
 {% endblock content %}
->>>>>>> feature/search2

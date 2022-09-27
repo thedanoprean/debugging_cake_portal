@@ -30,7 +30,7 @@ urlpatterns = [
     path('notifications/', include('notifications.urls')),
     path('', include('tag.urls', namespace="tag")),
     path('', include('chats.urls')),
-    path('dashboard/', include('dashboard.urls', namespace='index')),
+    path('', include('dashboard.urls', namespace='index')),
 ]
 
 if settings.DEBUG:

@@ -37,9 +37,17 @@ class FilteredListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        paginated_filtered_posts = Paginator(self.filterset.qs, 2)
-        page_number = self.request.GET.get('page')
-        post_page_obj = paginated_filtered_posts.get_page(page_number)
+        # paginated_filtered_posts = Paginator(self.filterset.qs, 2)
+        # page_number = self.request.GET.get('page')
+        # post_page_obj = paginated_filtered_posts.get_page(page_number)
+
+        page = self.request.GET.get('page', 1)
+        paginator = Paginator(Post.objects.all(), 2)
+        post_page_obj = paginator.get_page(page)
+        page_range = paginator.get_elided_page_range(number=page)
+
+        context = {'page_range': page_range, 'page': page, 'paginator': paginator, 'page_obj': post_page_obj}
+
         context.update({
             'filterset': self.filterset,
             'post_page_obj': post_page_obj
@@ -56,60 +64,6 @@ class PostListView(FilteredListView):
     paginate_by = 2
     template_name = 'index.html'
     ordering = ['-date_created']
-
-
-
-# def show_all_posts_page(request):
-#     context = {}
-#
-#     filtered_posts = PostFilter(
-#         request.GET,
-#         queryset=Post.objects.all()
-#     )
-#
-#     # context['filtered_posts'] = filtered_posts.qs
-#     context.update({
-#         'filtered_posts': filtered_posts
-#     })
-#     return render(request, 'index.html', context=context)
-
-
-# def list_posts(request):
-#
-#     # Intai filtrare, apoi paginare
-#
-#     posts = Post.objects.all().order_by('-date_created')
-#     my_filter = PostFilter(request.GET, queryset=posts)
-#     posts = my_filter.qs
-#
-#     p = Paginator(posts, 1)
-#     page = request.GET.get('page')
-#     posts = p.get_page(page)
-#     nums = "a" * posts.paginator.num_pages
-#
-#     return render(request, 'index.html',
-#                   {
-#                       'posts': posts,
-#                       'nums': nums,
-#                       'my_filter': my_filter
-#                   })
-
-# post_list = Post.objects.all().order_by('-date_created')
-#
-# # Set up Pagination
-# p = Paginator(post_list, 1)
-# page = request.GET.get('page')
-# posts = p.get_page(page)
-# nums = "a" * posts.paginator.num_pages
-#
-# my_filter = PostFilter(request.GET, queryset=post_list)
-# post_list = my_filter.qs
-# return render(request, 'index.html',
-#               {
-#                   'posts': posts,
-#                   'nums': nums,
-#                   'my_filter': my_filter
-#               })
 
 
 class PostViewSet(viewsets.ViewSet):
@@ -149,7 +103,14 @@ class PostViewSet(viewsets.ViewSet):
 
 
 def homepage(request):
-    return render(request, 'index.html')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(Post.objects.all(), 2)
+    page_obj = paginator.get_page(page)
+    page_range = paginator.get_elided_page_range(number=page)
+
+    context = {'page_range': page_range, 'page': page, 'paginator': paginator, 'page_obj': page_obj}
+
+    return render(request, 'index.html', context)
 
 
 def about_page(request):

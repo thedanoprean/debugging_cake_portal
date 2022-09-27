@@ -44,6 +44,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    # my apps
     'chats',
     'channels',
     'cake_user',
@@ -54,15 +55,18 @@ INSTALLED_APPS = [
     'user_profile',
     'crispy_forms',
     'dashboard',
+    'django_filters',
+    'rest_framework',
+    'like',
+    'notifications',
+    # django stuff
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # 'django.contrib.sites',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'like',
-    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +86,7 @@ TEMPLATE_TAGS_DIR = Path(BASE_DIR) / 'templatetags'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+
         'DIRS': [TEMPLATE_DIR, TEMPLATE_TAGS_DIR, BASE_DIR.joinpath('dashboard.templates')],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -174,3 +179,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 NUM_OF_CHARS_TO_TRUNCATE = 10
 num_for_prev = 10
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}

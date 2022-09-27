@@ -1,66 +1,53 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
-    {% load i18n %}
-{% include 'navbar.html'%}
-{% load crispy_forms_tags %}
 
-<!--  <div class="container-fluid my-5">-->
-<!--    {% if request.user.is_superuser %}-->
-<!--    <div class="card">-->
-<!--        <div class="card-header">-->
-<!--            User - Comment - Post Count-->
-<!--        </div>-->
-<!--        <div class="card-body">-->
-<!--            <p class="card-text"> User Count: {{user_count}} <br/></p>-->
-<!--            <p class="card-text"> Comment Count: {{comment_count}} <br/></p>-->
-<!--            <p class="card-text"> Post Count: {{post_count}} <br/></p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    {% endif %}-->
+{% block content %}
+{% load i18n %}
+    {% include 'navbar.html'%}
+    {% load crispy_forms_tags %}
 
     <article class="media content-section">
-
     <div class="media-body">
-      <div class="article-metadata">
-          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-        <a class="mr-2" href="#">{{ post.author }}</a>
-         <small class="text-muted">{{ post.date_created|date:"F d, Y" }}</small>
-        {% if post.author == user %}
-          <div class="article-metadata-buttons">
-            <a class="btn btn2 edit btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">
-                <span class="material-symbols-outlined">
-                    edit
-                </span></a>
-            <a class="btn btn2 delete btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">
-                <span class="material-symbols-outlined">
-                    delete
-                </span></a>
-           </div>
-        {% endif %}
+        <div class="article-metadata">
+            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+            <a class="mr-2" href="#">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_created|date:"F d, Y" }}</small>
+
+            {% if post.author == user %}
+                <div class="article-metadata-buttons">
+                    <a class="btn btn2 edit btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">
+                    <span class="material-symbols-outlined">
+                        edit
+                    </span>
+                    </a>
+                    <a class="btn btn2 delete btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </a>
+                </div>
+            {% endif %}
         </div>
-      <h2 class="article-title">{{ post.title }}</h2>
-      <p class="article-content">{{ post.description }}</p>
-      <p></p>
-      <p>{% trans 'File preview' %}</p>
-        <span>{{ post.results }}...</span>
-      </div>
+        <h2 class="article-title">{{ post.title }}</h2>
+        <p class="article-content">{{ post.description }}</p>
+
+        {% if post.file %}
+        <p>File preview</p>
+            <span> {{ post.results }}... </span>
+        {% endif %}
+    </div>
     </article>
-  </div>
 
-            <!--comments-->
-            <div class="comment-section">
-                <div class="comment-container ">
-                    <div class="comment-title"> Comments({{post_comments_count}})</div>
-
-                    {% if user.is_authenticated %}
+    <!--comments-->
+    <div class="comment-section">
+        <div class="comment-container ">
+            <div class="comment-title"> Comments({{post_comments_count}})</div>
+                {% if user.is_authenticated %}
                     <form action="" method="POST" id="main_form" class="comment_form">
                     </form>
-
                     <div class=" ">
-                         <div class=" ">
+                        <div class=" ">
                             <!--display comment-->
-
                             <div class="media-list">
                                 {% for comment in post_comments %}
                                     {% if comment.is_parent %}
@@ -77,8 +64,8 @@
                                             <form action="" method="POST" id="main_form2" class="comment_form">
                                                 <div class="reply-btn">
 
-<!--                                                    <label form="comment">Reply here:</label>-->
-<!--                                                    <input type="text" name="content"> <input type="hidden" value="{{ comment.pk }}" name="parent"> {% csrf_token %} <input type="submit" value="Reply">-->
+<!--                                                <label form="comment">Reply here:</label>-->
+<!--                                                <input type="text" name="content"> <input type="hidden" value="{{ comment.pk }}" name="parent"> {% csrf_token %} <input type="submit" value="Reply">-->
                                                         <p class="hidden-div" id='{{comment.pk}}' style='display: none'> <input type="text" name="content"> <input type="hidden" value="{{ comment.pk }}" name="parent"> {% csrf_token %} <input class="custom-button" type="submit" value="Reply"></p>
 
                                                         <button id='{{comment.pk}}-button' class="custom-button reply-button" type='button' onclick="toggleText({{comment.pk}})">Reply</button>

@@ -1,6 +1,7 @@
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import redirect
+from django.core.paginator import Paginator
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
@@ -9,7 +10,8 @@ from comment.models import Comment
 from like.models import Like
 from notifications.models import Notification
 from cake_user.models.user_model import User
-from .models import Post
+from posts.models.post_model import Post
+from .filters import PostFilter
 
 
 def like_unlike_post(request):
@@ -45,11 +47,53 @@ def like_unlike_post(request):
     return redirect('index')
 
 
-class PostListView(ListView):
+class FilteredListView(ListView):
+    filterset_class = None
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        page = self.request.GET.get('page', 1)
+        paginator = Paginator(Post.objects.all(), 2)
+        post_page_obj = paginator.get_page(page)
+        page_range = paginator.get_elided_page_range(number=page)
+
+        context = {'page_range': page_range, 'page': page, 'paginator': paginator, 'page_obj': post_page_obj}
+
+        context.update({
+            'filterset': self.filterset,
+            'post_page_obj': post_page_obj
+        })
+        return context
+
+
+# API REQUEST FACTORY
+
+# Usage
+class PostListView(FilteredListView):
     model = Post
+    filterset_class = PostFilter
+    paginate_by = 2
     template_name = 'index.html'
-    context_object_name = 'posts'
     ordering = ['-date_created']
+
+
+def homepage(request):
+    page = request.GET.get('page', 1)
+    paginator = Paginator(Post.objects.all(), 2)
+    page_obj = paginator.get_page(page)
+    page_range = paginator.get_elided_page_range(number=page)
+
+    context = {'page_range': page_range, 'page': page, 'paginator': paginator, 'page_obj': page_obj}
+
+    return render(request, 'index.html', context)
+
+
+def about_page(request):
+    return render(request, 'about.html')
 
 
 class PostDetailView(HitCountDetailView):

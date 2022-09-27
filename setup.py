@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    "django ~= 4.0",
+    "django ~= 3.2.1",
     "django-crispy-forms ~=1.14.0",
     "jadecore3",
     "jadestream",

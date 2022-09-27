@@ -21,11 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/src/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
+<<<<<<< HEAD
 LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+=======
+>>>>>>> feature/search2
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -40,6 +43,11 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+<<<<<<< HEAD
+=======
+
+    # my apps
+>>>>>>> feature/search2
     'cake_user',
     'posts',
     'tag',
@@ -47,11 +55,18 @@ INSTALLED_APPS = [
     'comment',
     'user_profile',
     'crispy_forms',
+<<<<<<< HEAD
+=======
+
+    # django stuff
+    'posts.apps.PostsConfig',
+>>>>>>> feature/search2
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+<<<<<<< HEAD
     'django.contrib.staticfiles',
     'rest_framework',
     'channels',
@@ -59,6 +74,15 @@ INSTALLED_APPS = [
     'like',
     'notifications',
     'tests',
+=======
+    'django.contrib.sites',
+    'django.contrib.staticfiles',
+    'django_filters',
+    'rest_framework',
+
+    # others
+    'taggit',
+>>>>>>> feature/search2
 
 ]
 
@@ -93,7 +117,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'debugging_cake_portal.wsgi.application'
+<<<<<<< HEAD
 ASGI_APPLICATION = 'debugging_cake_portal.asgi.application'
+=======
+>>>>>>> feature/search2
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -104,7 +131,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
         'TEST': {
             'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3')
+<<<<<<< HEAD
         },
+=======
+        }
+>>>>>>> feature/search2
     }
 }
 
@@ -170,3 +201,10 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 NUM_OF_CHARS_TO_TRUNCATE = 10
 num_for_prev = 10
+<<<<<<< HEAD
+=======
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+>>>>>>> feature/search2

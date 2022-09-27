@@ -1,93 +1,91 @@
+import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
-from rest_framework import viewsets, status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from comment.form import CommentForm
 from comment.models import Comment
-from .models import Post
-from .serializers import PostSerializer
-from django.core.paginator import Paginator, EmptyPage
+from django.core.paginator import Paginator
+from like.models import Like
+from notifications.models import Notification
+from cake_user.models.user_model import User
+from posts.models.post_model import Post
+from .filters import PostFilter
 
 
-@api_view(['POST'])
-def adaugare_post(request):
-    print(request.data)
-    serializer = PostSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return JsonResponse("Done", status=201, safe=False)
-    else:
-        return Response(serializer.errors, status=400)
+def like_unlike_post(request):
+    ok = True
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = Post.objects.get(id=post_id)
+        like, created = Like.objects.get_or_create(user=user, post_id=post_id)
+        if user in post_obj.liked.all():
+            post_obj.liked.remove(user)
+        else:
+            post_obj.liked.add(user)
+
+        if not created:
+            if not like.value:
+                like.value = True
+            else:
+                like.value = False
+        else:
+            like.value = False
+        post_obj.save()
+        like.save()
+        if not like.value:
+            notify = Notification(post=like.post, sender=like.user, user=like.post.author, notification_type=1)
+            notifications = Notification.objects.filter(sender=like.user).order_by('-date')
+            for noti in notifications:
+                if noti.post == notify.post and noti.user == notify.user:
+                    notify = Notification.objects.get(post=noti.post, sender=noti.sender)
+                    notify.date = datetime.datetime.now()
+                    notify.is_seen = False
+            notify.save()
+    return redirect('index')
 
 
-def list_posts(request):
-    post_list = Post.objects.all().order_by('-date_created')
+class FilteredListView(ListView):
+    filterset_class = None
 
-    # Set up Pagination
-    p = Paginator(post_list, 3)
-    page = request.GET.get('page')
-    posts = p.get_page(page)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs
 
-    return render(request, 'index.html',
-                  {
-                      'posts': posts
-                  })
+    def get_context_data(self, **kwargs):
+        page = self.request.GET.get('page', 1)
+        paginator = Paginator(Post.objects.all(), 2)
+        post_page_obj = paginator.get_page(page)
+        page_range = paginator.get_elided_page_range(number=page)
 
 
-class PostViewSet(viewsets.ViewSet):
-    queryset = Post.objects
-    serializer = PostSerializer
+# API REQUEST FACTORY
 
-    def list(self, request):
-        posts = self.queryset.all()
-        serializer = self.serializer(posts, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def retrieve(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
-        serializer = self.serializer(post)
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def update(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
-        serializer = self.serializer(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"error": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def partial_update(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
-        serializer = self.serializer(post, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"error": "Invalid data"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
-        post.delete()
-        return Response({'success': 'Team deleted successfully'}, status.HTTP_200_OK)
+# Usage
+class PostListView(FilteredListView):
+    model = Post
+    filterset_class = PostFilter
+    paginate_by = 2
+    template_name = 'index.html'
+    ordering = ['-date_created']
 
 
 def homepage(request):
-    return render(request, 'index.html');
+    page = request.GET.get('page', 1)
+    paginator = Paginator(Post.objects.all(), 2)
+    page_obj = paginator.get_page(page)
+    page_range = paginator.get_elided_page_range(number=page)
+
+    context = {'page_range': page_range, 'page': page, 'paginator': paginator, 'page_obj': page_obj}
+
+    return render(request, 'index.html', context)
 
 
 def about_page(request):
     return render(request, 'about.html')
-
-
-class PostListView(ListView):
-    model = Post
-    template_name = 'index.html'
-    context_object_name = 'posts'
-    ordering = ['-date_created']
 
 
 class PostDetailView(HitCountDetailView):
@@ -102,17 +100,22 @@ class PostDetailView(HitCountDetailView):
             form.instance.user = request.user
             form.instance.post = post
             form.save()
-
             return redirect(reverse("post-detail", kwargs={'pk': int(post.id)}))
 
     def get_context_data(self, **kwargs):
         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
         post_comments = Comment.objects.all().filter(post=self.object.id)
+        user_count = User.objects.all().count()
+        comment_count = Comment.objects.all().count()
+        post_count = Post.objects.all().count()
         context = super().get_context_data(**kwargs)
         context.update({
             'form': self.form,
             'post_comments': post_comments,
             'post_comments_count': post_comments_count,
+            'user_count': user_count,
+            'comment_count': comment_count,
+            'post_count': post_count
         })
 
         return context

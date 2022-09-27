@@ -73,11 +73,11 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         if exists(full_path):
             file_name = os.path.join(full_path, 'user_messages.txt')
             with open(file_name, 'a+') as file:
-                file.write(latest_message.content)
+                file.write(latest_message.content + "\n")
                 file.close()
         else:
             os.makedirs(full_path)
             file_name = os.path.join(full_path, 'user_messages.txt')
             with open(file_name, 'a+') as file:
-                file.write(latest_message.content)
+                file.write(latest_message.content + "\n")
                 file.close()

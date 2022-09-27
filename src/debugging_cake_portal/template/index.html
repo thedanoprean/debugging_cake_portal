@@ -13,102 +13,43 @@
 
 <div>
     <form method="get">
-    {{ filterset.form.as_p }}
-    <input type="submit" name="q" value="Search"/>
-  </form>
+        {{ filterset.form.as_p }}
+        <input type="submit" name="q" value="Search"/>
+    </form>
 </div>
 
-
 {% for post in post_page_obj %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.author }}</a>
-              <small class="text-muted">{{ post.date_created|date:"F d, Y" }}</small>
-            </div>
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+            <div class="media-body">
+               <div class="article-metadata">
+                  <a class="mr-2" href="#">{{ post.author }}</a>
+                  <small class="text-muted">{{ post.date_created|date:"F d, Y" }}</small>
+               </div><h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.description|truncatechars:10}}</p>
-          </div>
-        </article>
-    {% endfor %}
+            </div>
+    </article>
+{% endfor %}
 
 
-
-{#    <nav>#}
-  <ul class="pagination justify-content-center flex-wrap mt-2 mb-4">
-{% if post_page_obj.has_previous %}
-                <li class="page-item"><a class = "page-link" href="{% my_url 1 'page' request.GET.urlencode %}">&laquo;</a></li>
+<ul class="pagination justify-content-center flex-wrap mt-2 mb-4">
+    {% if post_page_obj.has_previous %}
+        <li class="page-item"><a class = "page-link" href="{% my_url 1 'page' request.GET.urlencode %}">&laquo;</a></li>
     {% else %}
-                <li class="disabled page-item"><spanc class="page-link">&laquo;</spanc></li>
+        <li class="disabled page-item"><spanc class="page-link">&laquo;</spanc></li>
     {% endif %}
 
-        {% for i in page_range|default_if_none:post_page_obj.paginator.get_elided_page_range %}
-                {% if post_page_obj.number == i %}
-                    <li class="active page-item"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
-   {% else %}
-            {% if i == post_page_obj.paginator.ELLIPSIS %}
-                <li class="page-item"><span class="page-link">{{ i }}</span></li>
-            {% else %}
-                <li class="page-item"><a class="page-link" href="{% my_url i 'page' request.GET.urlencode %}">{{ i }}</a></li>
-            {% endif %}
+    {% for i in page_range|default_if_none:post_page_obj.paginator.get_elided_page_range %}
+        {% if post_page_obj.number == i %}
+            <li class="active page-item"><span class="page-link">{{ i }}<span class="sr-only">(current)</span></span></li>
+        {% else %}
+        {% if i == post_page_obj.paginator.ELLIPSIS %}
+            <li class="page-item"><span class="page-link">{{ i }}</span></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="{% my_url i 'page' request.GET.urlencode %}">{{ i }}</a></li>
+        {% endif %}
         {% endif %}
     {% endfor %}
-{#    {% if post_page_obj.has_next %}#}
-{#        <li class="page-item"><a class="page-link" href="{% my_url post_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">&raquo;</a></li>#}
-{#    {% else %}#}
-{#        <li class="disabled page-item"><span class="page-link">&raquo;</span></li>#}
-{#    {% endif %}#}
-</ul>
-{#                <li class="page-item"><a class = "page-link" href="{% my_url post_page_obj.previous_page_number 'page' request.GET.urlencode %}">Previous</a></li>#}
-{#            {% endif %}#}
-{##}
-{#                <li class="page-item disabled"><a href="#" class="page-link">Page {{ post_page_obj.number }} of {{ post_page_obj.paginator.num_pages }} </a></li>#}
-{##}
-{#                {% for i in nums %}#}
-{#                    <li class="page-item"><a class = "page-link" href="/posts/?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>#}
-{#                {% endfor %}#}
-{##}
-{#            {% if post_page_obj.has_next %}#}
-{#                <li class="page-item"><a class = "page-link" href="{% my_url post_page_obj.next_page_number 'page' request.GET.urlencode %}">Next Page</a></li>#}
-{#            {% else %}#}
-{#                <li class="page-item"><a class = "page-link" href="{% my_url post_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">Last &raquo</a></li>#}
-{#            {% endif %}#}
-{#  </ul>#}
-{#</nav>#}
-
-
-
-{##}
-{#    <form action="" method="get">#}
-{#    {{ filterset.form.as_p }}#}
-{#    <input type="submit" />#}
-{#  </form>#}
-{##}
-{#<ul>#}
-{#    {% for object in object_list %}#}
-{#        <li>{{ object }}</li>#}
-{#    {% endfor %}#}
-{#</ul>#}
-
-{#<div class="pagination">#}
-{#    <span class="step-links">#}
-{#        {% if page_obj.has_previous %}#}
-{#            <a href="?page=1">&laquo; first</a>#}
-{#            <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
-{#        {% endif %}#}
-{##}
-{#        <span class="current">#}
-{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#        </span>#}
-{##}
-{#        {% if page_obj.has_next %}#}
-{#            <!-- https://stackoverflow.com/questions/52007038/pagination-using-listview-and-a-dynamic-filtered-queryset -->#}
-{#            <a href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">next</a>#}
-{#            <a href="?{{ request.GET.urlencode }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
-{#        {% endif %}#}
-{#    </span>#}
-{#</div>#}
-
+  </ul>
 
 {% endblock content %}

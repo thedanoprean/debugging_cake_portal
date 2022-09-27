@@ -44,10 +44,7 @@ INSTALLED_APPS = [
     'comment',
     'user_profile',
     'crispy_forms',
-
-
     # django stuff
-    'posts.apps.PostsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,10 +54,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'rest_framework',
-
-    # others
-    'taggit',
-
 ]
 
 MIDDLEWARE = [

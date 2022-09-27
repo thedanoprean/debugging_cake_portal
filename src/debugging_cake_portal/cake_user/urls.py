@@ -1,7 +1,6 @@
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from posts.views import PostListView
-
 from .views.login_view import LoginView
 from .views.register_view import register
 

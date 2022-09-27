@@ -61,6 +61,14 @@ class FilteredListView(ListView):
         post_page_obj = paginator.get_page(page)
         page_range = paginator.get_elided_page_range(number=page)
 
+        context = {'page_range': page_range, 'page': page, 'paginator': paginator, 'page_obj': post_page_obj}
+
+        context.update({
+            'filterset': self.filterset,
+            'post_page_obj': post_page_obj
+        })
+        return context
+
 
 # API REQUEST FACTORY
 
@@ -71,17 +79,6 @@ class PostListView(FilteredListView):
     paginate_by = 2
     template_name = 'index.html'
     ordering = ['-date_created']
-
-
-def homepage(request):
-    page = request.GET.get('page', 1)
-    paginator = Paginator(Post.objects.all(), 2)
-    page_obj = paginator.get_page(page)
-    page_range = paginator.get_elided_page_range(number=page)
-
-    context = {'page_range': page_range, 'page': page, 'paginator': paginator, 'page_obj': page_obj}
-
-    return render(request, 'index.html', context)
 
 
 def about_page(request):

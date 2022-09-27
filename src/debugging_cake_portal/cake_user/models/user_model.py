@@ -22,7 +22,7 @@ class Role(models.Model):
 class User(AbstractUser):
     username = models.CharField(max_length=100, unique=True, blank=False, null=False)
     email = models.EmailField(_('email'), unique=True)
-    roles = models.ManyToManyField(Role)
+    role = models.ManyToManyField(Role)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

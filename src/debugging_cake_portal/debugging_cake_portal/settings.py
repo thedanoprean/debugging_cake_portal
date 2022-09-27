@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'comment',
     'user_profile',
     'crispy_forms',
+    'dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,7 +82,7 @@ TEMPLATE_TAGS_DIR = Path(BASE_DIR) / 'templatetags'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR, TEMPLATE_TAGS_DIR],
+        'DIRS': [TEMPLATE_DIR, TEMPLATE_TAGS_DIR, BASE_DIR.joinpath('dashboard.templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

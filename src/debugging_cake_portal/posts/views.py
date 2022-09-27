@@ -1,5 +1,4 @@
 import datetime
-
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -9,6 +8,7 @@ from comment.form import CommentForm
 from comment.models import Comment
 from like.models import Like
 from notifications.models import Notification
+from cake_user.models.user_model import User
 from .models import Post
 
 
@@ -42,14 +42,6 @@ def like_unlike_post(request):
                     notify.date = datetime.datetime.now()
                     notify.is_seen = False
             notify.save()
-        # else:
-        #     if like.value:
-        #         notify = Notification.objects.get(post=like.post, sender=like.user, user=like.post.author)
-        #         print(like.post)
-        #         print(like.user)
-        #         print(like.post.author)
-        #         notify.delete()
-
     return redirect('index')
 
 
@@ -72,17 +64,22 @@ class PostDetailView(HitCountDetailView):
             form.instance.user = request.user
             form.instance.post = post
             form.save()
-
             return redirect(reverse("post-detail", kwargs={'pk': int(post.id)}))
 
     def get_context_data(self, **kwargs):
         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
         post_comments = Comment.objects.all().filter(post=self.object.id)
+        user_count = User.objects.all().count()
+        comment_count = Comment.objects.all().count()
+        post_count = Post.objects.all().count()
         context = super().get_context_data(**kwargs)
         context.update({
             'form': self.form,
             'post_comments': post_comments,
             'post_comments_count': post_comments_count,
+            'user_count': user_count,
+            'comment_count': comment_count,
+            'post_count': post_count
         })
 
         return context

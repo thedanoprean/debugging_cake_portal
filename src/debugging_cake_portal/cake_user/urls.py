@@ -8,7 +8,7 @@ from .views.register_view import register
 app_name = "cake_user"
 
 urlpatterns = [
-    path('', PostListView.as_view()),
+    path('posts/', PostListView.as_view()),
     path('login/', LoginView.as_view(template_name='cake_user/login.html'), name='login'),
     path('register/', register, name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),

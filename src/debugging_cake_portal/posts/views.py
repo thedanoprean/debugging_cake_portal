@@ -77,7 +77,7 @@ class PostListView(FilteredListView):
     model = Post
     filterset_class = PostFilter
     paginate_by = 2
-    template_name = 'index.html'
+    template_name = 'postlist.html'
     ordering = ['-date_created']
 
 

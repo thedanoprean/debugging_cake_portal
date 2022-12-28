@@ -4,7 +4,7 @@ Steps to follow for running the project locally
 
 First, clone the repository to your local machine:
 
-    git clone https://git.jouve-hdi.com/CVAR/debugging_cake_portal.git
+    git clone https://github.com/thedanoprean/debugging_cake_portal.git
 
 Install the requirements:
 
